@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gamer Chair for Minecraft
+* source:	https://sketchfab.com/3d-models/gamer-chair-for-minecraft-1b497345a70f408db7cc8c40c2db2c28
+* author:	Gabriel_Dja (https://sketchfab.com/Gabriel_Dja)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gamer Chair for Minecraft" (https://sketchfab.com/3d-models/gamer-chair-for-minecraft-1b497345a70f408db7cc8c40c2db2c28) by Gabriel_Dja (https://sketchfab.com/Gabriel_Dja) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
