@@ -6,35 +6,53 @@ import ProjectsShowcase from './Components/Projects.jsx';
 import AboutScene from './Components/About.jsx';
 import SkillScene from './Components/SkillsPage.jsx';
 
+import { motion } from 'framer-motion';
+
+
 export default function App() {
-   return (
-    // <div style={appStyle}>
-    //   < LandingScene />
-    // </div>
+
+
+    
+  return (
     <div style={appStyle}>
-      {/* Always visible Sidebar */}
+      {/* Sticky Sidebar */}
       <Sidebar />
 
-      {/* Main scrollable content */}
+      {/* Scrollable main content */}
       <div style={contentStyle}>
-        <section style={sectionStyle}>
+        <Section>
           <LandingScene />
-        </section>
+        </Section>
 
-        <section style={sectionStyle}>
+        <Section>
           <ProjectsShowcase />
-        </section>
+        </Section>
 
-        <section style={sectionStyle}>
+        <Section>
           <AboutScene />
-        </section>
+        </Section>
 
-        <section style={sectionStyle}>
+        <Section>
           <SkillScene />
-        </section>
+        </Section>
       </div>
     </div>
-   );
+  );
+}
+
+// Section Component with scroll animation
+function Section({ children }) {
+  return (
+    <motion.section
+      style={sectionStyle}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: false, amount: 0.5 }}
+    >
+      {children}
+    </motion.section>
+  );
 }
 
 // Styles
@@ -42,15 +60,15 @@ const appStyle = {
   display: 'flex',
   overflowX: 'hidden',
   height: '100vh',
-  backgroundColor: '#111', // Added background
+  backgroundColor: '#111',
 };
 
 const contentStyle = {
   flex: 1,
-  overflowY: 'auto',
+  overflowY: 'scroll',
   height: '100vh',
   scrollSnapType: 'y mandatory',
-  scrollBehavior: 'smooth', // smooth scroll!
+  scrollBehavior: 'smooth',
 };
 
 const sectionStyle = {
@@ -58,4 +76,7 @@ const sectionStyle = {
   width: '100%',
   scrollSnapAlign: 'start',
   overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 };

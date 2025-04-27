@@ -1,83 +1,116 @@
+// src/Components/Projects.jsx
 import React from 'react';
+import { motion } from 'framer-motion';
+import Tilt from 'react-parallax-tilt';
 
-// Dummy project data
+
+// Import sounds
+//import hoverSoundFile from '../assets/sounds/hover.mp3';
+import clickSoundFile from '../assets/sounds/click.mp3';
+
+// Project data
 const projects = [
-  { title: 'GameVerse', description: 'A 3D gaming hub built with Three.js and WebGL.', link: '#' },
-  { title: 'DevPortfolio', description: 'A stunning developer portfolio using React and Tailwind.', link: '#' },
-  { title: 'VR World', description: 'A virtual reality experience accessible via web browsers.', link: '#' },
-  { title: 'Motion UI Kit', description: 'Reusable motion-based UI components for React apps.', link: '#' },
+  {
+    title: "Game Portal",
+    description: "A 3D game marketplace made with Three.js and React.",
+    link: "#"
+  },
+  {
+    title: "Portfolio Universe",
+    description: "A sci-fi personal portfolio with cosmic 3D elements.",
+    link: "#"
+  },
+  {
+    title: "Racing Rush",
+    description: "Multiplayer futuristic racing game with WebGL.",
+    link: "#"
+  },
 ];
+
+// Sound setup
+//const hoverSound = new Audio(hoverSoundFile);
+const clickSound = new Audio(clickSoundFile);
+
+// Animation for card entrance
+const cardVariants = {
+  offscreen: {
+    y: 100,
+    opacity: 0,
+  },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+};
 
 export default function ProjectsShowcase() {
   return (
-    <section style={sectionStyle}>
-      <h2 style={titleStyle}>Projects</h2>
-      <div style={projectsGridStyle}>
-        {projects.map((project, index) => (
-          <div key={index} style={projectCardStyle}>
-            <h3 style={projectTitleStyle}>{project.title}</h3>
-            <p style={projectDescStyle}>{project.description}</p>
-            <a href={project.link} style={buttonStyle}>View Project</a>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div style={containerStyle}>
+      {projects.map((project, index) => (
+        <motion.div
+          key={index}
+          className="project-card"
+          variants={cardVariants}
+          initial="offscreen"
+          whileInView="onscreen"
+          viewport={{ once: true }}
+        >
+          {/* Tilt effect wrapper */}
+          <Tilt
+            options={{ max: 10, scale: 1.02, speed: 400, glare: true, "max-glare": 0.2 }}
+            style={tiltCardStyle}
+          >
+            <div
+              style={cardInnerStyle}
+              //onMouseEnter={() => hoverSound.play()}
+              onClick={() => clickSound.play()}
+            >
+              <h2 style={titleStyle}>{project.title}</h2>
+              <p style={descStyle}>{project.description}</p>
+            </div>
+          </Tilt>
+        </motion.div>
+      ))}
+    </div>
   );
 }
 
 // Styles
-const sectionStyle = {
-  padding: '4rem 2rem',
-  minHeight: '100vh',
-  backgroundColor: '#111827', // Dark background
-  color: '#ffffff',
-};
-
-const titleStyle = {
-  fontSize: '2.5rem',
-  marginBottom: '2rem',
-  textAlign: 'center',
-  fontFamily: 'Sensation, sans-serif',
-};
-
-const projectsGridStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-  gap: '2rem',
-};
-
-const projectCardStyle = {
-  background: '#1f2937',
-  padding: '2rem',
-  borderRadius: '10px',
-  boxShadow: '0 0 15px rgba(0, 255, 255, 0.2)',
+const containerStyle = {
+  height: '100vh',
+  padding: '6rem 2rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  gap: '3rem',
+  background: '#111',
+};
+
+const tiltCardStyle = {
+  width: '260px',
+};
+
+const cardInnerStyle = {
+  background: 'linear-gradient(145deg, #1e1e1e, #2c2c2c)',
+  borderRadius: '20px',
+  padding: '2rem',
+  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
   textAlign: 'center',
-  transition: 'transform 0.3s ease',
+  cursor: 'pointer',
+  color: '#fff',
 };
 
-const projectTitleStyle = {
-  fontSize: '1.5rem',
+const titleStyle = {
   marginBottom: '1rem',
-  fontFamily: 'Sensation, sans-serif',
+  fontSize: '1.5rem',
 };
 
-const projectDescStyle = {
+const descStyle = {
   fontSize: '1rem',
-  marginBottom: '1.5rem',
-  fontWeight: '300',
-  fontFamily: 'Sensation, sans-serif',
+  color: '#aaa',
 };
-
-const buttonStyle = {
-  padding: '0.6rem 1.2rem',
-  backgroundColor: '#00ffff',
-  color: '#000',
-  borderRadius: '5px',
-  textDecoration: 'none',
-  fontWeight: 'bold',
-  transition: 'background 0.3s ease',
-};
-
