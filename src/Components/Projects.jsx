@@ -1,116 +1,168 @@
-// src/Components/Projects.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
+import { useInView } from 'react-intersection-observer';
+import ProjectOverlay from './ProjectOverlay';
 
 
-// Import sounds
-//import hoverSoundFile from '../assets/sounds/hover.mp3';
-import clickSoundFile from '../assets/sounds/click.mp3';
-
-// Project data
 const projects = [
-  {
-    title: "Game Portal",
-    description: "A 3D game marketplace made with Three.js and React.",
-    link: "#"
-  },
-  {
-    title: "Portfolio Universe",
-    description: "A sci-fi personal portfolio with cosmic 3D elements.",
-    link: "#"
-  },
-  {
-    title: "Racing Rush",
-    description: "Multiplayer futuristic racing game with WebGL.",
-    link: "#"
-  },
+  { title: 'Project 1', description: 'Amazing VR Experience' },
+  { title: 'Project 2', description: '3D Portfolio World' },
+  { title: 'Project 3', description: 'Multiplayer Card Game' },
+  { title: 'Project 4', description: 'AI Adventure Game' },
+  // Add more projects here
 ];
 
-// Sound setup
-//const hoverSound = new Audio(hoverSoundFile);
-const clickSound = new Audio(clickSoundFile);
-
-// Animation for card entrance
-const cardVariants = {
-  offscreen: {
-    y: 100,
-    opacity: 0,
-  },
-  onscreen: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8,
-    },
-  },
-};
-
 export default function ProjectsShowcase() {
+  const [hovered, setHovered] = useState(null);
+  const { ref, inView } = useInView({
+    triggerOnce: false, 
+    threshold: 0.2,
+  });
+
+  useEffect(() => {
+    const swooshSound = new Audio('/sounds/hover.mp3'); // 🔥 Fix: Correct file path (public/sounds)
+
+    const handleWheel = () => {
+      swooshSound.currentTime = 0;
+      swooshSound.play().catch(() => {});
+    };
+
+    window.addEventListener('wheel', handleWheel);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   return (
-    <div style={containerStyle}>
+    <div ref={ref} style={tableStyle}>
+      {/* Deck of cards on top-left */}
+      <div style={deckStyle}>
+        <img
+          src="/images/card.jpg"  // Replace with your real card back image path
+          alt="Card Deck"
+          style={deckCardStyle}
+        />
+      </div>
       {projects.map((project, index) => (
         <motion.div
-          key={index}
-          className="project-card"
-          variants={cardVariants}
-          initial="offscreen"
-          whileInView="onscreen"
-          viewport={{ once: true }}
+        key={index}
+        initial={{ y: -200, opacity: 0, rotate: (index - projects.length / 2) * 8 }}
+        animate={inView ? { y: 0, opacity: 1, rotate: (index - projects.length / 2) * 8 } : { y: -200, opacity: 0 }}
+        transition={{ delay: index * 0.2, type: 'spring', stiffness: 120 }}
+        style={{
+          width: '120px',
+          height: '180px',
+          perspective: 1000,
+        }}
         >
-          {/* Tilt effect wrapper */}
-          <Tilt
-            options={{ max: 10, scale: 1.02, speed: 400, glare: true, "max-glare": 0.2 }}
-            style={tiltCardStyle}
+        <div
+          style={{
+            ...flipCardStyle,
+            transform: hovered === index ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+          onMouseEnter={() => setHovered(index)}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => {
+
+            const clickSound = new Audio('/sounds/click.mp3');
+            clickSound.play().catch(() => {});
+          }}
           >
-            <div
-              style={cardInnerStyle}
-              //onMouseEnter={() => hoverSound.play()}
-              onClick={() => clickSound.play()}
-            >
-              <h2 style={titleStyle}>{project.title}</h2>
-              <p style={descStyle}>{project.description}</p>
-            </div>
-          </Tilt>
-        </motion.div>
+          {/* Back of Card */}
+          <div style={cardBackFace}></div>
+      
+          {/* Front of Card */}
+          <div style={cardFrontFace}>
+            <h3 style={{ margin: '0', fontSize: '1rem' }}>{project.title}</h3>
+            <p style={{ margin: '0.3rem 0 0', fontSize: '0.75rem' }}>{project.description}</p>
+          </div>
+        </div>
+      </motion.div>
+      
       ))}
     </div>
   );
 }
 
+
 // Styles
-const containerStyle = {
+const tableStyle = {
+  background: 'radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
   height: '100vh',
-  padding: '6rem 2rem',
+  width: '100%',
   display: 'flex',
-  flexDirection: 'column',
+  justifyContent: 'center',
   alignItems: 'center',
   gap: '3rem',
-  background: '#111',
-};
-
-const tiltCardStyle = {
-  width: '260px',
-};
-
-const cardInnerStyle = {
-  background: 'linear-gradient(145deg, #1e1e1e, #2c2c2c)',
-  borderRadius: '20px',
+  flexWrap: 'wrap',
   padding: '2rem',
-  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
-  textAlign: 'center',
+  position: 'relative',
+  border: '10px solid gold',
+  borderRadius: '30px',
+  boxSizing: 'border-box',
+};
+
+
+const flipCardStyle = {
+  width: '120px',
+  height: '180px',
+  position: 'relative',
+  transformStyle: 'preserve-3d',
+  transition: 'transform 0.8s', // 🔥 Smooth flip
   cursor: 'pointer',
-  color: '#fff',
 };
 
-const titleStyle = {
-  marginBottom: '1rem',
-  fontSize: '1.5rem',
+const cardBackFace = {
+  width: '100%',
+  height: '100%',
+  backgroundImage: 'url("/images/card.jpg")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  borderRadius: '12px',
+  border: '2px ',
+  backfaceVisibility: 'hidden', // 🔥 Important
+  position: 'absolute',
+  top: 0,
+  left: 0,
 };
 
-const descStyle = {
-  fontSize: '1rem',
-  color: '#aaa',
+const cardFrontFace = {
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  borderRadius: '12px',
+  border: '2px ',
+  backfaceVisibility: 'hidden', // 🔥 Important
+  transform: 'rotateY(180deg)', // Front is rotated
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '10px',
+  textAlign: 'center',
+  fontFamily: '"Sensation", serif',
+  color: '#111',
+};
+const deckStyle = {
+  position: 'absolute',
+  top: '120px',
+  left: '350px',
+  width: '100px',
+  height: '160px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 5,
+};
+
+const deckCardStyle = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  borderRadius: '8px',
+  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.5)',
 };
