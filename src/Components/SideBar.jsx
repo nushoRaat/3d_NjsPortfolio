@@ -34,8 +34,8 @@ export default function Sidebar() {
 
       {/* Links Section */}
       <nav style={navStyle}>
-        <SidebarLink text="Projects" href="/ProjectsShowcase" />
-        <SidebarLink text="Experience" href="/AboutScene" />
+        <SidebarLink text="Projects" href="#projects" />
+        <SidebarLink text="Experience" href="#home" />
         <SidebarLink text="Skills" href="#skills" />
         <SidebarLink text="Contact" href="#contact" />
       </nav>
