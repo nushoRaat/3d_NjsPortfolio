@@ -1,31 +1,41 @@
+// Components/ProjectOverlay.jsx
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// ProjectOverlay Component
 export default function ProjectOverlay({ project, onClose }) {
   if (!project) return null;
 
   return (
-    <div style={overlayStyle} onClick={onClose}>
-      <div style={overlayContentStyle} onClick={(e) => e.stopPropagation()}>
-        <h2>{project.title}</h2>
-        <p><strong>Language:</strong> {project.language || 'JavaScript / React'}</p>
-        <p><strong>Description:</strong> {project.description}</p>
-
-        {project.video && (
-          <video
-            src={project.video}
-            controls
-            style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }}
-          />
-        )}
-
+    <AnimatePresence>
+    {project && (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.85 }}
+        transition={{ duration: 0.3 }}
+        style={overlayStyle}
+        onClick={onClose}
+      >
+      <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} style={closeButton}>✖</button>
+        <h2 style={titleStyle}>{project.title}</h2>
+        <p style={descriptionStyle}><strong>Language:</strong> {project.language}</p>
+        <p style={descriptionStyle}><strong>Description:</strong> {project.description}</p>
         {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            Visit Project 🚀
-          </a>
+          <p style={descriptionStyle}>
+            <strong>Link:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer">{project.link}</a>
+          </p>
+        )}
+        {project.video && (
+          <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
+            <source src={project.video} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         )}
       </div>
-    </div>
+      </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -36,32 +46,41 @@ const overlayStyle = {
   left: 0,
   width: '100vw',
   height: '100vh',
-  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
   display: 'flex',
-  alignItems: 'center',
   justifyContent: 'center',
-  zIndex: 1000,
-  backdropFilter: 'blur(5px)',
+  alignItems: 'center',
+  zIndex: 999,
 };
 
-const overlayContentStyle = {
-  backgroundColor: '#fff',
+const modalStyle = {
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
   padding: '2rem',
   borderRadius: '12px',
-  width: '90%',
+  width: '80%',
   maxWidth: '600px',
-  textAlign: 'center',
+  position: 'relative',
   color: '#111',
-  fontFamily: '"Sensation", sans-serif',
 };
 
-const linkStyle = {
-  marginTop: '1rem',
-  display: 'inline-block',
-  padding: '10px 20px',
-  backgroundColor: '#ffd700',
-  color: '#111',
-  borderRadius: '8px',
-  textDecoration: 'none',
-  fontWeight: 'bold',
+const closeButton = {
+  position: 'absolute',
+  top: '10px',
+  right: '15px',
+  background: 'transparent',
+  border: 'none',
+  fontSize: '1.5rem',
+  cursor: 'pointer',
 };
+const titleStyle = {
+  fontSize: '1.5rem',
+  marginBottom: '1rem',
+  color: 'rgb(255, 255, 255)', // Gold or any color you like
+};
+
+const descriptionStyle = {
+  fontSize: '1rem',
+  color: 'rgba(226, 224, 224, 0.9)', // Lighter gray or any readable color
+  marginBottom: '1rem',
+};
+

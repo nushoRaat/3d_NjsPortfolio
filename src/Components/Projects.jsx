@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ProjectOverlay from './ProjectOverlay';
+import projects from './ProjectList';
 
 
-const projects = [
-  { title: 'Project 1', description: 'Amazing VR Experience' },
-  { title: 'Project 2', description: '3D Portfolio World' },
-  { title: 'Project 3', description: 'Multiplayer Card Game' },
-  { title: 'Project 4', description: 'AI Adventure Game' },
-  // Add more projects here
-];
+// const projects = [
+//   { title: 'Project 1', description: 'Amazing VR Experience' },
+//   { title: 'Project 2', description: '3D Portfolio World' },
+//   { title: 'Project 3', description: 'Multiplayer Card Game' },
+//   { title: 'Project 4', description: 'AI Adventure Game' },
+//   // Add more projects here
+// ];
 
 export default function ProjectsShowcase() {
+  const [selectedProject, setSelectedProject] = useState(null);
   const [hovered, setHovered] = useState(null);
   const { ref, inView } = useInView({
     triggerOnce: false, 
@@ -20,7 +22,7 @@ export default function ProjectsShowcase() {
   });
 
   useEffect(() => {
-    const swooshSound = new Audio('/sounds/hover.mp3'); // 🔥 Fix: Correct file path (public/sounds)
+    const swooshSound = new Audio('/sounds/hover.mp3'); 
 
     const handleWheel = () => {
       swooshSound.currentTime = 0;
@@ -39,7 +41,7 @@ export default function ProjectsShowcase() {
       {/* Deck of cards on top-left */}
       <div style={deckStyle}>
         <img
-          src="/images/card.jpg"  // Replace with your real card back image path
+          src="/images/card2.jpg"  
           alt="Card Deck"
           style={deckCardStyle}
         />
@@ -64,7 +66,7 @@ export default function ProjectsShowcase() {
           onMouseEnter={() => setHovered(index)}
           onMouseLeave={() => setHovered(null)}
           onClick={() => {
-
+            setSelectedProject(project)
             const clickSound = new Audio('/sounds/click.mp3');
             clickSound.play().catch(() => {});
           }}
@@ -81,6 +83,8 @@ export default function ProjectsShowcase() {
       </motion.div>
       
       ))}
+      <ProjectOverlay project={selectedProject} onClose={() => setSelectedProject(null)} />
+
     </div>
   );
 }
@@ -88,7 +92,8 @@ export default function ProjectsShowcase() {
 
 // Styles
 const tableStyle = {
-  background: 'radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+  backgroundImage: 'url("/images/pokerBoardTexture2.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+  backgroundBlendMode: 'overlay',
   height: '100vh',
   width: '100%',
   display: 'flex',
@@ -101,6 +106,8 @@ const tableStyle = {
   border: '10px solid gold',
   borderRadius: '30px',
   boxSizing: 'border-box',
+  boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)'
+
 };
 
 
@@ -109,19 +116,20 @@ const flipCardStyle = {
   height: '180px',
   position: 'relative',
   transformStyle: 'preserve-3d',
-  transition: 'transform 0.8s', // 🔥 Smooth flip
+  transition: 'transform 0.8s', // Smooth flip
   cursor: 'pointer',
 };
 
 const cardBackFace = {
   width: '100%',
   height: '100%',
-  backgroundImage: 'url("/images/card.jpg")',
+  backgroundImage: 'url("/images/card2.jpg")',
+  boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   borderRadius: '12px',
   border: '2px ',
-  backfaceVisibility: 'hidden', // 🔥 Important
+  backfaceVisibility: 'hidden', // Important
   position: 'absolute',
   top: 0,
   left: 0,
@@ -133,7 +141,7 @@ const cardFrontFace = {
   backgroundColor: 'rgba(255, 255, 255, 0.95)',
   borderRadius: '12px',
   border: '2px ',
-  backfaceVisibility: 'hidden', // 🔥 Important
+  backfaceVisibility: 'hidden', // Important
   transform: 'rotateY(180deg)', // Front is rotated
   position: 'absolute',
   top: 0,
@@ -149,20 +157,21 @@ const cardFrontFace = {
 };
 const deckStyle = {
   position: 'absolute',
-  top: '120px',
-  left: '350px',
-  width: '100px',
-  height: '160px',
+  top: '15%',
+  left: '20%',
+  transform: 'translate(0, 0)',
+  width: '80px',
+  height: '130px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 5,
 };
 
+
 const deckCardStyle = {
   width: '100%',
   height: '100%',
-  objectFit: 'cover',
   borderRadius: '8px',
   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.5)',
 };
