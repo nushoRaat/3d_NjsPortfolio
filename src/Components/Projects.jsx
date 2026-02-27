@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ProjectOverlay from './ProjectOverlay';
 import projects from './ProjectList';
-
+import FloatingRectangle from './FloatingRectangle';
+import HoverTextArrow from './HoverTextArrow';
 
 // const projects = [
 //   { title: 'Project 1', description: 'Amazing VR Experience' },
@@ -39,13 +40,10 @@ export default function ProjectsShowcase() {
   return (
     <div ref={ref} style={tableStyle}>
       {/* Deck of cards on top-left */}
-      <div style={deckStyle}>
-        <img
-          src="/images/card2.jpg"  
-          alt="Card Deck"
-          style={deckCardStyle}
-        />
-      </div>
+
+      <FloatingRectangle position={{ top: '25%', left: '12rem' }} size={500} textureUrl="/images/card2.jpg" spin={true} />
+      {/*<HoverTextArrow text ={"click the cards!"}  x = '60%' y = '30% ' arrowSize = '50%' />*/}
+
       {projects.map((project, index) => (
         <motion.div
         key={index}
@@ -92,7 +90,7 @@ export default function ProjectsShowcase() {
 
 // Styles
 const tableStyle = {
-  backgroundImage: 'url("/images/pokerBoardTexture2.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+  backgroundImage: 'url("/images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
   backgroundBlendMode: 'overlay',
   height: '100vh',
   width: '100%',
@@ -103,7 +101,7 @@ const tableStyle = {
   flexWrap: 'wrap',
   padding: '2rem',
   position: 'relative',
-  border: '10px solid gold',
+  border: '20px solid #523a28',
   borderRadius: '30px',
   boxSizing: 'border-box',
   boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)'

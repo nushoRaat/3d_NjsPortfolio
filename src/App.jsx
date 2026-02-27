@@ -3,7 +3,7 @@ import React from 'react';
 import Sidebar from './Components/SideBar.jsx';
 import LandingScene from './Components/LandingScene.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
-import AboutScene from './Components/About.jsx';
+import AboutScene from './Components/ContactMe.jsx';
 import SkillScene from './Components/SkillsPage.jsx';
 
 import { motion } from 'framer-motion';
@@ -29,13 +29,14 @@ export default function App() {
           <ProjectsShowcase />
         </Section>
 
-        <Section id = "contact">
-          <AboutScene />
-        </Section>
-
         <Section id = "skills">
           <SkillScene />
         </Section>
+        
+        <Section id = "contact">
+          <AboutScene />
+        </Section>
+        
         {/* <Routes>
         <Route path="/" element={<LandingScene />} />
           <Route path="/projects" element={<ProjectsShowcase />} />
