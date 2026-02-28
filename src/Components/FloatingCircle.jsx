@@ -1,19 +1,19 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
+import * as THREE from 'three';
 
 function CircleMesh({ color }) {
   const meshRef = useRef();
   const isHovered = useRef(false);
+  // Pre-allocate once — avoids a plain-object allocation every frame
+  const scaleVec = useRef(new THREE.Vector3(1, 1, 1));
 
   useFrame(() => {
     if (meshRef.current) {
-      // Smoothly animate scale up/down based on hover
       const targetScale = isHovered.current ? 1.5 : 1;
-      meshRef.current.scale.lerp(
-        { x: targetScale, y: targetScale, z: targetScale },
-        0.1 // smoothing factor
-      );
+      scaleVec.current.setScalar(targetScale);
+      meshRef.current.scale.lerp(scaleVec.current, 0.1);
     }
   });
 
@@ -24,7 +24,8 @@ function CircleMesh({ color }) {
         onPointerOver={() => { isHovered.current = true; }}
         onPointerOut={() => { isHovered.current = false; }}
       >
-        <sphereGeometry args={[1, 32, 32]} />
+        {/* 16×16 is visually identical at this render size, half the vertex count */}
+        <sphereGeometry args={[1, 16, 16]} />
         <meshStandardMaterial color={color} />
       </mesh>
     </Float>

@@ -6,6 +6,8 @@ import * as THREE from 'three';
 function CardMesh({ textureUrl, color }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
+  // Pre-allocate once — avoids a new Vector3 allocation every frame
+  const scaleVec = useRef(new THREE.Vector3(1, 1, 1));
 
   const texture = textureUrl ? useLoader(THREE.TextureLoader, textureUrl) : null;
 
@@ -13,10 +15,8 @@ function CardMesh({ textureUrl, color }) {
     if (meshRef.current) {
       // Smooth scaling
       const targetScale = hovered ? 1.3 : 1;
-      meshRef.current.scale.lerp(
-        new THREE.Vector3(targetScale, targetScale, targetScale),
-        0.1
-      );
+      scaleVec.current.setScalar(targetScale);
+      meshRef.current.scale.lerp(scaleVec.current, 0.1);
 
       // Smooth rotation on hover
       const targetRotationY = hovered ? meshRef.current.rotation.y + delta * 5 : 0;

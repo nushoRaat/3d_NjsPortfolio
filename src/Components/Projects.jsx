@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ProjectOverlay from './ProjectOverlay';
@@ -22,19 +22,38 @@ export default function ProjectsShowcase() {
     threshold: 0.2,
   });
 
+  // Cache audio objects on mount — avoids creating a new instance on every event
+  const swooshRef = useRef(null);
+  const clickRef = useRef(null);
+  const throttleRef = useRef(false);
+
   useEffect(() => {
-    const swooshSound = new Audio('/sounds/hover.mp3'); 
+    swooshRef.current = new Audio('/sounds/hover.mp3');
+    clickRef.current = new Audio('/sounds/click.mp3');
+  }, []);
 
+  useEffect(() => {
     const handleWheel = () => {
-      swooshSound.currentTime = 0;
-      swooshSound.play().catch(() => {});
+      // Throttle to ~150ms so trackpad rapid-fire doesn't flood Audio.play()
+      if (throttleRef.current) return;
+      throttleRef.current = true;
+      if (swooshRef.current) {
+        swooshRef.current.currentTime = 0;
+        swooshRef.current.play().catch(() => {});
+      }
+      setTimeout(() => { throttleRef.current = false; }, 150);
     };
 
-    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
 
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
+  const handleCardClick = useCallback((project) => {
+    setSelectedProject(project);
+    if (clickRef.current) {
+      clickRef.current.currentTime = 0;
+      clickRef.current.play().catch(() => {});
+    }
   }, []);
 
   return (
@@ -63,19 +82,34 @@ export default function ProjectsShowcase() {
           }}
           onMouseEnter={() => setHovered(index)}
           onMouseLeave={() => setHovered(null)}
-          onClick={() => {
-            setSelectedProject(project)
-            const clickSound = new Audio('/sounds/click.mp3');
-            clickSound.play().catch(() => {});
-          }}
+          onClick={() => handleCardClick(project)}
           >
           {/* Back of Card */}
           <div style={cardBackFace}></div>
       
           {/* Front of Card */}
           <div style={cardFrontFace}>
-            <h3 style={{ margin: '0', fontSize: '1rem' }}>{project.title}</h3>
-            <p style={{ margin: '0.3rem 0 0', fontSize: '0.75rem' }}>{project.description}</p>
+            {/* Inner border frame */}
+            <div style={cardInnerBorder}>
+              {/* Top-left corner */}
+              <div style={cardCornerTL}>
+                <span style={cardCornerNum}>{index + 1}</span>
+                <span style={cardCornerStar}>★</span>
+              </div>
+
+              {/* Center content */}
+              <div style={cardCenter}>
+                <p style={cardCenterTitle}>{project.title}</p>
+                <div style={cardDividerLine} />
+                <p style={cardCenterLang}>{project.language}</p>
+              </div>
+
+              {/* Bottom-right corner (mirrored) */}
+              <div style={cardCornerBR}>
+                <span style={cardCornerStar}>★</span>
+                <span style={cardCornerNum}>{index + 1}</span>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -136,22 +170,92 @@ const cardBackFace = {
 const cardFrontFace = {
   width: '100%',
   height: '100%',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  backgroundColor: '#fdf6ee',
   borderRadius: '12px',
-  border: '2px ',
-  backfaceVisibility: 'hidden', // Important
-  transform: 'rotateY(180deg)', // Front is rotated
+  backfaceVisibility: 'hidden',
+  transform: 'rotateY(180deg)',
   position: 'absolute',
   top: 0,
   left: 0,
+  fontFamily: '"Sensation", serif',
+  color: '#1a1a1a',
+  boxSizing: 'border-box',
+  padding: '6px',
+};
+
+const cardInnerBorder = {
+  width: '100%',
+  height: '100%',
+  border: '1.5px solid #c8a882',
+  borderRadius: '8px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
+  alignItems: 'stretch',
+  padding: '5px',
+  boxSizing: 'border-box',
+};
+
+const cardCornerTL = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  lineHeight: 1.1,
+};
+
+const cardCornerBR = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  lineHeight: 1.1,
+  transform: 'rotate(180deg)',
+};
+
+const cardCornerNum = {
+  fontSize: '14px',
+  fontWeight: 'bold',
+  color: '#523a28',
+};
+
+const cardCornerStar = {
+  fontSize: '9px',
+  color: '#a3785b',
+};
+
+const cardCenter = {
+  display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-  padding: '10px',
+  justifyContent: 'center',
+  flex: 1,
+  gap: '4px',
+  padding: '0 2px',
+};
+
+const cardCenterTitle = {
+  margin: 0,
+  fontSize: '11px',
+  fontWeight: 'bold',
+  color: '#1a1a1a',
   textAlign: 'center',
-  fontFamily: '"Sensation", serif',
-  color: '#111',
+  lineHeight: 1.3,
+  wordBreak: 'break-word',
+};
+
+const cardDividerLine = {
+  width: '60%',
+  height: '1px',
+  background: '#c8a882',
+  borderRadius: '1px',
+};
+
+const cardCenterLang = {
+  margin: 0,
+  fontSize: '8px',
+  color: '#a3785b',
+  textAlign: 'center',
+  letterSpacing: '0.03em',
+  textTransform: 'uppercase',
 };
 const deckStyle = {
   position: 'absolute',

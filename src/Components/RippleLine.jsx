@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 
 export default function RopeWaveLine({
   x = '50%',
@@ -9,29 +9,29 @@ export default function RopeWaveLine({
   waveAmplitude = 10,
   waveFrequency = 0.02,
   speed = 0.04,
-  waveStart = 0.3, // wave starts at 30% of width
-  waveEnd = 0.7    // wave ends at 70% of width
+  waveStart = 0.3,
+  waveEnd = 0.7,
 }) {
   const pathRef = useRef(null);
-  const [time, setTime] = useState(0);
+  // Use a ref instead of state — avoids 60 React re-renders per second
+  const timeRef = useRef(0);
 
   useEffect(() => {
     let frameId;
+    const numPoints = 100;
+    const spacing = width / numPoints;
+    const halfHeight = height / 2;
 
     const updateWave = () => {
-      const numPoints = 100;
-      const spacing = width / numPoints;
-      let path = `M 0 ${height / 2}`;
+      let path = `M 0 ${halfHeight}`;
 
       for (let i = 0; i <= numPoints; i++) {
         const px = i * spacing;
         const progress = px / width;
-
         const isInWave = progress >= waveStart && progress <= waveEnd;
         const py = isInWave
-          ? height / 2 + Math.sin((i + time) * waveFrequency) * waveAmplitude
-          : height / 2;
-
+          ? halfHeight + Math.sin((i + timeRef.current) * waveFrequency) * waveAmplitude
+          : halfHeight;
         path += ` L ${px} ${py}`;
       }
 
@@ -39,13 +39,13 @@ export default function RopeWaveLine({
         pathRef.current.setAttribute('d', path);
       }
 
-      setTime((prev) => prev + speed);
+      timeRef.current += speed;
       frameId = requestAnimationFrame(updateWave);
     };
 
     frameId = requestAnimationFrame(updateWave);
     return () => cancelAnimationFrame(frameId);
-  }, [time, waveStart, waveEnd, waveAmplitude, waveFrequency, speed, width, height]);
+  }, [waveStart, waveEnd, waveAmplitude, waveFrequency, speed, width, height]);
 
   return (
     <svg

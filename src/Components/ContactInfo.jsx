@@ -6,17 +6,17 @@ export default function ContactInfo() {
     {
       icon: <FaPhoneAlt style={iconStyle} />,
       label: 'Phone',
-      value: '+123 456 7890',
+      value: '+880 1980784503',
     },
     {
       icon: <FaEnvelope style={iconStyle} />,
       label: 'Email',
-      value: 'you@example.com',
+      value: 'nushrat.j01@gmail.com',
     },
     {
       icon: <FaMapMarkerAlt style={iconStyle} />,
       label: 'Address',
-      value: '123 Main Street, City, Country',
+      value: 'Dhaka, Bangladesh',
     },
   ];
 
