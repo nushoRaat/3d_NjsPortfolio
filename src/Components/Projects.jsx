@@ -1,116 +1,323 @@
-// src/Components/Projects.jsx
-import React from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
+import { useInView } from 'react-intersection-observer';
+import ProjectOverlay from './ProjectOverlay';
+import projects from './ProjectList';
+import FloatingRectangle from './FloatingRectangle';
+import HoverTextArrow from './HoverTextArrow';
 
-
-// Import sounds
-//import hoverSoundFile from '../assets/sounds/hover.mp3';
-import clickSoundFile from '../assets/sounds/click.mp3';
-
-// Project data
-const projects = [
-  {
-    title: "Game Portal",
-    description: "A 3D game marketplace made with Three.js and React.",
-    link: "#"
-  },
-  {
-    title: "Portfolio Universe",
-    description: "A sci-fi personal portfolio with cosmic 3D elements.",
-    link: "#"
-  },
-  {
-    title: "Racing Rush",
-    description: "Multiplayer futuristic racing game with WebGL.",
-    link: "#"
-  },
-];
-
-// Sound setup
-//const hoverSound = new Audio(hoverSoundFile);
-const clickSound = new Audio(clickSoundFile);
-
-// Animation for card entrance
-const cardVariants = {
-  offscreen: {
-    y: 100,
-    opacity: 0,
-  },
-  onscreen: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8,
-    },
-  },
-};
+// const projects = [
+//   { title: 'Project 1', description: 'Amazing VR Experience' },
+//   { title: 'Project 2', description: '3D Portfolio World' },
+//   { title: 'Project 3', description: 'Multiplayer Card Game' },
+//   { title: 'Project 4', description: 'AI Adventure Game' },
+//   // Add more projects here
+// ];
 
 export default function ProjectsShowcase() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [hovered, setHovered] = useState(null);
+  const { ref, inView } = useInView({
+    triggerOnce: false, 
+    threshold: 0.2,
+  });
+
+  // Cache audio objects on mount — avoids creating a new instance on every event
+  const swooshRef = useRef(null);
+  const clickRef = useRef(null);
+  const throttleRef = useRef(false);
+
+  useEffect(() => {
+    swooshRef.current = new Audio('/sounds/hover.mp3');
+    clickRef.current = new Audio('/sounds/click.mp3');
+  }, []);
+
+  useEffect(() => {
+    const handleWheel = () => {
+      // Throttle to ~150ms so trackpad rapid-fire doesn't flood Audio.play()
+      if (throttleRef.current) return;
+      throttleRef.current = true;
+      if (swooshRef.current) {
+        swooshRef.current.currentTime = 0;
+        swooshRef.current.play().catch(() => {});
+      }
+      setTimeout(() => { throttleRef.current = false; }, 150);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  const handleCardClick = useCallback((project) => {
+    setSelectedProject(project);
+    if (clickRef.current) {
+      clickRef.current.currentTime = 0;
+      clickRef.current.play().catch(() => {});
+    }
+  }, []);
+
   return (
-    <div style={containerStyle}>
+    <div ref={ref} style={tableStyle}>
+      {/* Deck of cards on top-left */}
+
+      <FloatingRectangle position={{ top: '25%', left: '12rem' }} size={500} textureUrl="/images/card2.jpg" spin={true} />
+      {/*<HoverTextArrow text ={"click the cards!"}  x = '60%' y = '30% ' arrowSize = '50%' />*/}
+
+      {/* ── Flip cue ── */}
+      <motion.div
+        style={flipCueStyle}
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+        transition={{ delay: projects.length * 0.2 + 0.3, duration: 0.5 }}
+      >
+        <motion.span
+          style={flipCueIcon}
+          animate={{ rotateY: [0, 180, 360] }}
+          transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+        >
+          ♠
+        </motion.span>
+        <span style={flipCueText}>Hover to flip</span>
+      </motion.div>
+
       {projects.map((project, index) => (
         <motion.div
-          key={index}
-          className="project-card"
-          variants={cardVariants}
-          initial="offscreen"
-          whileInView="onscreen"
-          viewport={{ once: true }}
+        key={index}
+        initial={{ y: -200, opacity: 0, rotate: (index - projects.length / 2) * 8 }}
+        animate={inView ? { y: 0, opacity: 1, rotate: (index - projects.length / 2) * 8 } : { y: -200, opacity: 0 }}
+        transition={{ delay: index * 0.2, type: 'spring', stiffness: 120 }}
+        style={{
+          width: '120px',
+          height: '180px',
+          perspective: 1000,
+        }}
         >
-          {/* Tilt effect wrapper */}
-          <Tilt
-            options={{ max: 10, scale: 1.02, speed: 400, glare: true, "max-glare": 0.2 }}
-            style={tiltCardStyle}
+        <div
+          style={{
+            ...flipCardStyle,
+            transform: hovered === index ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+          onMouseEnter={() => setHovered(index)}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => handleCardClick(project)}
           >
-            <div
-              style={cardInnerStyle}
-              //onMouseEnter={() => hoverSound.play()}
-              onClick={() => clickSound.play()}
-            >
-              <h2 style={titleStyle}>{project.title}</h2>
-              <p style={descStyle}>{project.description}</p>
+          {/* Back of Card */}
+          <div style={cardBackFace}></div>
+      
+          {/* Front of Card */}
+          <div style={cardFrontFace}>
+            {/* Inner border frame */}
+            <div style={cardInnerBorder}>
+              {/* Top-left corner */}
+              <div style={cardCornerTL}>
+                <span style={cardCornerNum}>{index + 1}</span>
+                <span style={cardCornerStar}>★</span>
+              </div>
+
+              {/* Center content */}
+              <div style={cardCenter}>
+                <p style={cardCenterTitle}>{project.title}</p>
+                <div style={cardDividerLine} />
+                <p style={cardCenterLang}>{project.language}</p>
+              </div>
+
+              {/* Bottom-right corner (mirrored) */}
+              <div style={cardCornerBR}>
+                <span style={cardCornerStar}>★</span>
+                <span style={cardCornerNum}>{index + 1}</span>
+              </div>
             </div>
-          </Tilt>
-        </motion.div>
+          </div>
+        </div>
+      </motion.div>
+      
       ))}
+      <ProjectOverlay project={selectedProject} onClose={() => setSelectedProject(null)} />
+
     </div>
   );
 }
 
+
 // Styles
-const containerStyle = {
+const tableStyle = {
+  backgroundImage: 'url("/images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+  backgroundBlendMode: 'overlay',
   height: '100vh',
-  padding: '6rem 2rem',
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '3rem',
+  flexWrap: 'wrap',
+  padding: '2rem',
+  position: 'relative',
+  border: '20px solid #523a28',
+  borderRadius: '30px',
+  boxSizing: 'border-box',
+  boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)'
+
+};
+
+
+const flipCardStyle = {
+  width: '120px',
+  height: '180px',
+  position: 'relative',
+  transformStyle: 'preserve-3d',
+  transition: 'transform 0.8s', // Smooth flip
+  cursor: 'pointer',
+};
+
+const cardBackFace = {
+  width: '100%',
+  height: '100%',
+  backgroundImage: 'url("/images/card2.jpg")',
+  boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  borderRadius: '12px',
+  border: '2px ',
+  backfaceVisibility: 'hidden', // Important
+  position: 'absolute',
+  top: 0,
+  left: 0,
+};
+
+const cardFrontFace = {
+  width: '100%',
+  height: '100%',
+  backgroundColor: '#fdf6ee',
+  borderRadius: '12px',
+  backfaceVisibility: 'hidden',
+  transform: 'rotateY(180deg)',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  fontFamily: '"Sensation", serif',
+  color: '#1a1a1a',
+  boxSizing: 'border-box',
+  padding: '6px',
+};
+
+const cardInnerBorder = {
+  width: '100%',
+  height: '100%',
+  border: '1.5px solid #c8a882',
+  borderRadius: '8px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'stretch',
+  padding: '5px',
+  boxSizing: 'border-box',
+};
+
+const cardCornerTL = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  lineHeight: 1.1,
+};
+
+const cardCornerBR = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  lineHeight: 1.1,
+  transform: 'rotate(180deg)',
+};
+
+const cardCornerNum = {
+  fontSize: '14px',
+  fontWeight: 'bold',
+  color: '#523a28',
+};
+
+const cardCornerStar = {
+  fontSize: '9px',
+  color: '#a3785b',
+};
+
+const cardCenter = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '3rem',
-  background: '#111',
+  justifyContent: 'center',
+  flex: 1,
+  gap: '4px',
+  padding: '0 2px',
 };
 
-const tiltCardStyle = {
-  width: '260px',
-};
-
-const cardInnerStyle = {
-  background: 'linear-gradient(145deg, #1e1e1e, #2c2c2c)',
-  borderRadius: '20px',
-  padding: '2rem',
-  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+const cardCenterTitle = {
+  margin: 0,
+  fontSize: '11px',
+  fontWeight: 'bold',
+  color: '#1a1a1a',
   textAlign: 'center',
-  cursor: 'pointer',
-  color: '#fff',
+  lineHeight: 1.3,
+  wordBreak: 'break-word',
 };
 
-const titleStyle = {
-  marginBottom: '1rem',
-  fontSize: '1.5rem',
+const cardDividerLine = {
+  width: '60%',
+  height: '1px',
+  background: '#c8a882',
+  borderRadius: '1px',
 };
 
-const descStyle = {
-  fontSize: '1rem',
-  color: '#aaa',
+const cardCenterLang = {
+  margin: 0,
+  fontSize: '8px',
+  color: '#a3785b',
+  textAlign: 'center',
+  letterSpacing: '0.03em',
+  textTransform: 'uppercase',
+};
+const flipCueStyle = {
+  position: 'absolute',
+  bottom: '8%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.5rem',
+  zIndex: 10,
+  pointerEvents: 'none',
+};
+
+const flipCueIcon = {
+  display: 'inline-block',
+  fontSize: '1.2rem',
+  color: '#d4af37',
+  textShadow: '0 0 6px rgba(212,175,55,0.4)',
+};
+
+const flipCueText = {
+  fontFamily: 'monospace',
+  fontSize: '0.72rem',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'rgba(255,255,255,0.55)',
+};
+
+const deckStyle = {
+  position: 'absolute',
+  top: '15%',
+  left: '20%',
+  transform: 'translate(0, 0)',
+  width: '80px',
+  height: '130px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 5,
+};
+
+
+const deckCardStyle = {
+  width: '100%',
+  height: '100%',
+  borderRadius: '8px',
+  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.5)',
 };

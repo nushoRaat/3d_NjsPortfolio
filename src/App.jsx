@@ -3,47 +3,57 @@ import React from 'react';
 import Sidebar from './Components/SideBar.jsx';
 import LandingScene from './Components/LandingScene.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
-import AboutScene from './Components/About.jsx';
+import AboutScene from './Components/ContactMe.jsx';
 import SkillScene from './Components/SkillsPage.jsx';
 
 import { motion } from 'framer-motion';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 export default function App() {
 
 
     
   return (
+   
     <div style={appStyle}>
       {/* Sticky Sidebar */}
       <Sidebar />
 
       {/* Scrollable main content */}
       <div style={contentStyle}>
-        <Section>
+        <Section id="home"> 
           <LandingScene />
         </Section>
 
-        <Section>
+        <Section id = "projects">
           <ProjectsShowcase />
         </Section>
 
-        <Section>
-          <AboutScene />
-        </Section>
-
-        <Section>
+        <Section id = "skills">
           <SkillScene />
         </Section>
+        
+        <Section id = "contact">
+          <AboutScene />
+        </Section>
+        
+        {/* <Routes>
+        <Route path="/" element={<LandingScene />} />
+          <Route path="/projects" element={<ProjectsShowcase />} />
+          <Route path="/about" element={<AboutScene />} />
+          <Route path="/skills" element={<SkillScene />} />
+        </Routes> */}
       </div>
     </div>
+   
   );
 }
 
 // Section Component with scroll animation
-function Section({ children }) {
+function Section({ id, children }) {
   return (
     <motion.section
+      id={id}
       style={sectionStyle}
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
@@ -54,6 +64,7 @@ function Section({ children }) {
     </motion.section>
   );
 }
+
 
 // Styles
 const appStyle = {

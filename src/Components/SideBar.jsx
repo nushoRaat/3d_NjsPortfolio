@@ -29,14 +29,14 @@ export default function Sidebar() {
       
       {/* Logo Section */}
       <div style={logoSpaceStyle}>
-        <div style={logoPlaceholderStyle}>🎮</div>
+        <div style={logoPlaceholderStyle}></div>
       </div>
 
       {/* Links Section */}
       <nav style={navStyle}>
-        <SidebarLink text="Projects" href="/ProjectsShowcase" />
-        <SidebarLink text="Experience" href="/AboutScene" />
-        <SidebarLink text="Skills" href="#skills" />
+        <SidebarLink text="Home" href="#home" />
+        <SidebarLink text="Projects" href="#projects" />
+        <SidebarLink text="Skills and Experience" href="#skills" />
         <SidebarLink text="Contact" href="#contact" />
       </nav>
 
@@ -52,8 +52,8 @@ function SidebarLink({ text, href }) {
       href={href}
       style={{
         ...linkStyle,
-        color: hovered ? '#00ffff' : '#ccc',
-        textShadow: hovered ? '0 0 5px #00ffff, 0 0 10px #00ffff' : 'none',
+        color: hovered ? '#E4D4C8' : '#ccc',
+        textShadow: hovered ? '0 0 5px #E4D4C8, 0 0 10px #E4D4C8' : 'none',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -65,7 +65,7 @@ function SidebarLink({ text, href }) {
           style={{
             width: '2px',
             height: hovered ? '20px' : '0px',
-            backgroundColor: '#00ffff',
+            backgroundColor: '#E4D4C8',
             marginRight: '5px',
             transition: 'all 0.3s ease',
           }}
@@ -101,8 +101,12 @@ const logoSpaceStyle = {
 };
 
 const logoPlaceholderStyle = {
-  fontSize: '1.8rem',
-  color: '#fff',
+  width: '150px',
+  height: '150px',
+  backgroundImage: 'url("public/images/logo2.png")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  borderRadius: '10px'
 };
 
 const navStyle = {

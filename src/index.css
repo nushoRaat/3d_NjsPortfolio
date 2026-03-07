@@ -68,3 +68,14 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* In your global CSS or inside a <style> tag */
+/* @keyframes sweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg) rotate(5deg);
+  }
+  100% {
+    transform: translateX(150%) skewX(-20deg) rotate(5deg);
+  }
+} */
+
+
