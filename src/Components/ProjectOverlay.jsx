@@ -73,6 +73,19 @@ export default function ProjectOverlay({ project, onClose }) {
               transition={{ delay: 0.22, duration: 0.45, ease: 'easeOut' }}
             />
 
+            {/* ── Role ── */}
+            {project.role && (
+              <motion.div
+                style={roleRow}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.26 }}
+              >
+                <span style={roleLabel}>ROLE</span>
+                <span style={roleValue}>{project.role}</span>
+              </motion.div>
+            )}
+
             {/* ── Description ── */}
             <motion.p
               style={descText}
@@ -83,6 +96,35 @@ export default function ProjectOverlay({ project, onClose }) {
               <span style={{ color: '#d0b49f', marginRight: '0.4rem' }}>▸</span>
               {project.description}
             </motion.p>
+
+            {/* ── Image gallery grid ── */}
+            {project.images && project.images.length > 0 && (
+              <motion.div
+                style={galleryWrapper}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.34 }}
+              >
+                <span style={videoCaption}>◫ GALLERY</span>
+                <div style={galleryGrid}>
+                  <div style={galleryLeft}>
+                    <img src={project.images[0]} alt={`${project.title} screenshot 1`} style={galleryImgFill} />
+                  </div>
+                  <div style={galleryRight}>
+                    {project.images[1] && (
+                      <div style={galleryRightCell}>
+                        <img src={project.images[1]} alt={`${project.title} screenshot 2`} style={galleryImgFill} />
+                      </div>
+                    )}
+                    {project.images[2] && (
+                      <div style={galleryRightCell}>
+                        <img src={project.images[2]} alt={`${project.title} screenshot 3`} style={galleryImgFill} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
 
             {/* ── Video viewport ── */}
             {project.video && !videoError && (
@@ -240,6 +282,31 @@ const hrLine = {
   transformOrigin: 'left',
 };
 
+const roleRow = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.6rem',
+  marginBottom: '0.8rem',
+};
+
+const roleLabel = {
+  fontFamily: 'monospace',
+  fontSize: '0.62rem',
+  letterSpacing: '0.14em',
+  color: '#a3785b',
+  background: 'rgba(163,120,91,0.12)',
+  border: '1px solid rgba(163,120,91,0.3)',
+  padding: '2px 8px',
+  borderRadius: '2px',
+};
+
+const roleValue = {
+  fontFamily: 'monospace',
+  fontSize: '0.82rem',
+  color: '#e4d4c8',
+  letterSpacing: '0.04em',
+};
+
 const descText = {
   color: '#bbb',
   fontSize: '0.95rem',
@@ -269,6 +336,50 @@ const videoCaption = {
 const videoEl = {
   display: 'block',
   width: '100%',
+};
+
+const galleryWrapper = {
+  marginTop: '1rem',
+  border: '1px solid rgba(163,120,91,0.35)',
+  borderRadius: '3px',
+  overflow: 'hidden',
+  background: '#000',
+};
+
+const galleryGrid = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '3px',
+  padding: '3px',
+  background: '#110a06',
+};
+
+const galleryLeft = {
+  gridRow: '1 / 2',
+  position: 'relative',
+  overflow: 'hidden',
+  borderRadius: '2px',
+  aspectRatio: '3 / 4',
+};
+
+const galleryRight = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '3px',
+};
+
+const galleryRightCell = {
+  flex: 1,
+  position: 'relative',
+  overflow: 'hidden',
+  borderRadius: '2px',
+};
+
+const galleryImgFill = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  display: 'block',
 };
 
 const playBtn = {

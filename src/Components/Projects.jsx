@@ -63,6 +63,23 @@ export default function ProjectsShowcase() {
       <FloatingRectangle position={{ top: '25%', left: '12rem' }} size={500} textureUrl="/images/card2.jpg" spin={true} />
       {/*<HoverTextArrow text ={"click the cards!"}  x = '60%' y = '30% ' arrowSize = '50%' />*/}
 
+      {/* ── Flip cue ── */}
+      <motion.div
+        style={flipCueStyle}
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+        transition={{ delay: projects.length * 0.2 + 0.3, duration: 0.5 }}
+      >
+        <motion.span
+          style={flipCueIcon}
+          animate={{ rotateY: [0, 180, 360] }}
+          transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+        >
+          ♠
+        </motion.span>
+        <span style={flipCueText}>Hover to flip</span>
+      </motion.div>
+
       {projects.map((project, index) => (
         <motion.div
         key={index}
@@ -257,6 +274,33 @@ const cardCenterLang = {
   letterSpacing: '0.03em',
   textTransform: 'uppercase',
 };
+const flipCueStyle = {
+  position: 'absolute',
+  bottom: '8%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.5rem',
+  zIndex: 10,
+  pointerEvents: 'none',
+};
+
+const flipCueIcon = {
+  display: 'inline-block',
+  fontSize: '1.2rem',
+  color: '#d4af37',
+  textShadow: '0 0 6px rgba(212,175,55,0.4)',
+};
+
+const flipCueText = {
+  fontFamily: 'monospace',
+  fontSize: '0.72rem',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'rgba(255,255,255,0.55)',
+};
+
 const deckStyle = {
   position: 'absolute',
   top: '15%',
