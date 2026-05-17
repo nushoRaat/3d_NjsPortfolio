@@ -2,30 +2,26 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ProjectOverlay from './ProjectOverlay';
-import projects from './ProjectList';
 import FloatingRectangle from './FloatingRectangle';
-import HoverTextArrow from './HoverTextArrow';
-
-// const projects = [
-//   { title: 'Project 1', description: 'Amazing VR Experience' },
-//   { title: 'Project 2', description: '3D Portfolio World' },
-//   { title: 'Project 3', description: 'Multiplayer Card Game' },
-//   { title: 'Project 4', description: 'AI Adventure Game' },
-//   // Add more projects here
-// ];
+import { fetchProjects } from '../api/portfolio';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function ProjectsShowcase() {
+  const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [hovered, setHovered] = useState(null);
-  const { ref, inView } = useInView({
-    triggerOnce: false, 
-    threshold: 0.2,
-  });
+  const { isMobile, isTablet } = useResponsive();
+  const isNarrow = isMobile || isTablet;
 
-  // Cache audio objects on mount — avoids creating a new instance on every event
+  const { ref, inView } = useInView({ triggerOnce: false, threshold: 0.2 });
+
   const swooshRef = useRef(null);
   const clickRef = useRef(null);
   const throttleRef = useRef(false);
+
+  useEffect(() => {
+    fetchProjects().then(data => setProjects(data)).catch(() => {});
+  }, []);
 
   useEffect(() => {
     swooshRef.current = new Audio('/sounds/hover.mp3');
@@ -34,7 +30,6 @@ export default function ProjectsShowcase() {
 
   useEffect(() => {
     const handleWheel = () => {
-      // Throttle to ~150ms so trackpad rapid-fire doesn't flood Audio.play()
       if (throttleRef.current) return;
       throttleRef.current = true;
       if (swooshRef.current) {
@@ -43,7 +38,6 @@ export default function ProjectsShowcase() {
       }
       setTimeout(() => { throttleRef.current = false; }, 150);
     };
-
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
@@ -56,12 +50,41 @@ export default function ProjectsShowcase() {
     }
   }, []);
 
+  // Scale cards down on smaller screens
+  const cardWidth  = isMobile ? 90  : isTablet ? 105 : 120;
+  const cardHeight = isMobile ? 135 : isTablet ? 158 : 180;
+  const tableGap   = isMobile ? '1.2rem' : isTablet ? '1.8rem' : '3rem';
+  const tableBorder = isMobile ? '8px' : isTablet ? '12px' : '20px';
+
+  const tableStyle = {
+    backgroundImage: 'url("/images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+    backgroundBlendMode: 'overlay',
+    height: '100vh',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: tableGap,
+    flexWrap: 'wrap',
+    padding: isNarrow ? '1rem' : '2rem',
+    position: 'relative',
+    border: `${tableBorder} solid #523a28`,
+    borderRadius: isNarrow ? '16px' : '30px',
+    boxSizing: 'border-box',
+    boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)',
+  };
+
   return (
     <div ref={ref} style={tableStyle}>
-      {/* Deck of cards on top-left */}
-
-      <FloatingRectangle position={{ top: '25%', left: '12rem' }} size={500} textureUrl="/images/card2.jpg" spin={true} />
-      {/*<HoverTextArrow text ={"click the cards!"}  x = '60%' y = '30% ' arrowSize = '50%' />*/}
+      {/* Floating decorative card — hidden on narrow screens to avoid overlap */}
+      {!isNarrow && (
+        <FloatingRectangle
+          position={{ top: '25%', left: '12rem' }}
+          size={500}
+          textureUrl="/images/card2.jpg"
+          spin={true}
+        />
+      )}
 
       {/* ── Flip cue ── */}
       <motion.div
@@ -77,95 +100,69 @@ export default function ProjectsShowcase() {
         >
           ♠
         </motion.span>
-        <span style={flipCueText}>Hover to flip</span>
+        <span style={flipCueText}>{isMobile ? 'Tap to flip' : 'Hover to flip'}</span>
       </motion.div>
 
       {projects.map((project, index) => (
         <motion.div
-        key={index}
-        initial={{ y: -200, opacity: 0, rotate: (index - projects.length / 2) * 8 }}
-        animate={inView ? { y: 0, opacity: 1, rotate: (index - projects.length / 2) * 8 } : { y: -200, opacity: 0 }}
-        transition={{ delay: index * 0.2, type: 'spring', stiffness: 120 }}
-        style={{
-          width: '120px',
-          height: '180px',
-          perspective: 1000,
-        }}
+          key={index}
+          initial={{ y: -200, opacity: 0, rotate: (index - projects.length / 2) * 8 }}
+          animate={inView ? { y: 0, opacity: 1, rotate: (index - projects.length / 2) * 8 } : { y: -200, opacity: 0 }}
+          transition={{ delay: index * 0.2, type: 'spring', stiffness: 120 }}
+          style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, perspective: 1000 }}
         >
-        <div
-          style={{
-            ...flipCardStyle,
-            transform: hovered === index ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          }}
-          onMouseEnter={() => setHovered(index)}
-          onMouseLeave={() => setHovered(null)}
-          onClick={() => handleCardClick(project)}
+          <div
+            style={{
+              ...flipCardStyle,
+              width: `${cardWidth}px`,
+              height: `${cardHeight}px`,
+              transform: hovered === index ? 'rotateY(180deg)' : 'rotateY(0deg)',
+            }}
+            onMouseEnter={() => !isMobile && setHovered(index)}
+            onMouseLeave={() => !isMobile && setHovered(null)}
+            onClick={() => {
+              if (isMobile) setHovered(hovered === index ? null : index);
+              handleCardClick(project);
+            }}
           >
-          {/* Back of Card */}
-          <div style={cardBackFace}></div>
-      
-          {/* Front of Card */}
-          <div style={cardFrontFace}>
-            {/* Inner border frame */}
-            <div style={cardInnerBorder}>
-              {/* Top-left corner */}
-              <div style={cardCornerTL}>
-                <span style={cardCornerNum}>{index + 1}</span>
-                <span style={cardCornerStar}>★</span>
-              </div>
+            {/* Back of Card */}
+            <div style={cardBackFace} />
 
-              {/* Center content */}
-              <div style={cardCenter}>
-                <p style={cardCenterTitle}>{project.title}</p>
-                <div style={cardDividerLine} />
-                <p style={cardCenterLang}>{project.language}</p>
-              </div>
-
-              {/* Bottom-right corner (mirrored) */}
-              <div style={cardCornerBR}>
-                <span style={cardCornerStar}>★</span>
-                <span style={cardCornerNum}>{index + 1}</span>
+            {/* Front of Card */}
+            <div style={cardFrontFace}>
+              <div style={cardInnerBorder}>
+                <div style={cardCornerTL}>
+                  <span style={cardCornerNum}>{index + 1}</span>
+                  <span style={cardCornerStar}>★</span>
+                </div>
+                <div style={cardCenter}>
+                  <p style={cardCenterTitle}>{project.title}</p>
+                  <div style={cardDividerLine} />
+                  <p style={cardCenterLang}>{project.language}</p>
+                </div>
+                <div style={cardCornerBR}>
+                  <span style={cardCornerStar}>★</span>
+                  <span style={cardCornerNum}>{index + 1}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </motion.div>
-      
+        </motion.div>
       ))}
-      <ProjectOverlay project={selectedProject} onClose={() => setSelectedProject(null)} />
 
+      <ProjectOverlay project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
 }
 
-
-// Styles
-const tableStyle = {
-  backgroundImage: 'url("/images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
-  backgroundBlendMode: 'overlay',
-  height: '100vh',
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '3rem',
-  flexWrap: 'wrap',
-  padding: '2rem',
-  position: 'relative',
-  border: '20px solid #523a28',
-  borderRadius: '30px',
-  boxSizing: 'border-box',
-  boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)'
-
-};
-
+// ─── Styles ──────────────────────────────────────────────────────────────────
 
 const flipCardStyle = {
   width: '120px',
   height: '180px',
   position: 'relative',
   transformStyle: 'preserve-3d',
-  transition: 'transform 0.8s', // Smooth flip
+  transition: 'transform 0.8s',
   cursor: 'pointer',
 };
 
@@ -178,7 +175,7 @@ const cardBackFace = {
   backgroundPosition: 'center',
   borderRadius: '12px',
   border: '2px ',
-  backfaceVisibility: 'hidden', // Important
+  backfaceVisibility: 'hidden',
   position: 'absolute',
   top: 0,
   left: 0,
@@ -274,6 +271,7 @@ const cardCenterLang = {
   letterSpacing: '0.03em',
   textTransform: 'uppercase',
 };
+
 const flipCueStyle = {
   position: 'absolute',
   bottom: '8%',
@@ -299,25 +297,4 @@ const flipCueText = {
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
   color: 'rgba(255,255,255,0.55)',
-};
-
-const deckStyle = {
-  position: 'absolute',
-  top: '15%',
-  left: '20%',
-  transform: 'translate(0, 0)',
-  width: '80px',
-  height: '130px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 5,
-};
-
-
-const deckCardStyle = {
-  width: '100%',
-  height: '100%',
-  borderRadius: '8px',
-  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.5)',
 };

@@ -1,0 +1,163 @@
+{
+  "bio": {
+    "name": "Nushrat Jahan",
+    "description": "I'm a passionate game developer with a background in Computer Science and Engineering and over 3 years of hands-on experience in the industry. I specialize in building engaging and immersive game experiences, blending technical expertise with creative problem-solving. From prototyping mechanics to polishing final builds, I enjoy crafting interactive worlds that tell compelling stories and captivate players. Driven by curiosity and continuous learning, I thrive in collaborative environments and take pride in writing clean, efficient code. Whether it's gameplay systems, UI/UX, or performance optimization, I bring a developer's precision and a gamer's intuition to every project I work on. Crafting Worlds, One Line at a Time."
+  },
+  "contact": {
+    "phone": "+880 1980784503",
+    "email": "nushrat.j01@gmail.com",
+    "address": "Dhaka, Bangladesh"
+  },
+  "projects": [
+    {
+      "id": "1",
+      "title": "Time Looop",
+      "role": "Game Designer, programmer, Level Designer and UI Artist.",
+      "description": "A 3D puzzle game where player have to push the right button in time to create its past self looping through time which will unlock a door to escape.",
+      "images": [
+        "src/assets/images/TL_large.png",
+        "src/assets/images/TL_1.png",
+        "src/assets/images/TL_2.png"
+      ],
+      "language": "Unity / C#",
+      "link": "https://nushraat.itch.io/timelooop",
+      "video": "/videos/project1.mp4"
+    },
+    {
+      "id": "2",
+      "title": "Cats Trail",
+      "role": "Game Designer, programmer, Level Designer and UI Artist.",
+      "description": "On a quest to fight with own grief",
+      "images": [
+        "src/assets/images/CT_large.png",
+        "src/assets/images/CT_1.png",
+        "src/assets/images/CT_2.png"
+      ],
+      "language": "Unity / C#",
+      "link": "https://nushraat.itch.io/cats-trail",
+      "video": "/videos/project2.mp4"
+    },
+    {
+      "id": "3",
+      "title": "Project 3",
+      "role": "Game Designer, programmer, Level Designer and UI Artist.",
+      "description": "Multiplayer Card Game",
+      "images": [],
+      "language": "Node.js / WebSocket",
+      "link": "https://github.com/nushoRaat/SmallGames",
+      "video": "/videos/project3.mp4"
+    },
+    {
+      "id": "4",
+      "title": "Project 4",
+      "role": "Game Designer, programmer, Level Designer and UI Artist.",
+      "description": "AI Adventure Game",
+      "images": [],
+      "language": "Python / ML",
+      "link": "https://yourlink.com/project4",
+      "video": "/videos/project4.mp4"
+    }
+  ],
+  "skills": [
+    {
+      "id": "1",
+      "name": "Unity",
+      "level": "Advanced",
+      "pct": 88,
+      "iconKey": "SiUnity",
+      "tooltip": "3 years professional experience"
+    },
+    {
+      "id": "2",
+      "name": "C#",
+      "level": "Advanced",
+      "pct": 85,
+      "iconKey": "SiDotnet",
+      "tooltip": "Primary language in Unity"
+    },
+    {
+      "id": "3",
+      "name": "C++",
+      "level": "Intermediate",
+      "pct": 82,
+      "iconKey": "SiCplusplus",
+      "tooltip": "Systems & game logic"
+    },
+    {
+      "id": "4",
+      "name": "Java",
+      "level": "Intermediate",
+      "pct": 90,
+      "iconKey": "FaJava",
+      "tooltip": "OOP, data structures"
+    },
+    {
+      "id": "5",
+      "name": "Git",
+      "level": "Advanced",
+      "pct": 65,
+      "iconKey": "SiGit",
+      "tooltip": "Version control, branching"
+    },
+    {
+      "id": "6",
+      "name": "Unreal Engine",
+      "level": "Basic",
+      "pct": 40,
+      "iconKey": "SiUnrealengine",
+      "tooltip": "Blueprints, level design"
+    },
+    {
+      "id": "7",
+      "name": "Visual Studio",
+      "level": "Advanced",
+      "pct": 92,
+      "iconKey": "FaCode",
+      "tooltip": "Primary IDE"
+    },
+    {
+      "id": "8",
+      "name": "Figma",
+      "level": "Intermediate",
+      "pct": 55,
+      "iconKey": "SiFigma",
+      "tooltip": "UI/UX prototyping"
+    },
+    {
+      "id": "9",
+      "name": "Generative AI Tools",
+      "level": "Advanced",
+      "pct": 55,
+      "iconKey": "SiOpenai",
+      "tooltip": "ChatGPT, Claude, Midjourney"
+    }
+  ],
+  "experience": {
+    "description": "Over 3 years of hands-on industry experience building games and interactive applications.",
+    "items": [
+      "Designed and implemented multiple core game functions, ensuring smooth gameplay",
+      "Led gameplay systems design for prototypes",
+      "Implemented UI/UX for player-facing features",
+      "Created and integrated visual effects to enhance immersion and overall game aesthetics.",
+      "Collaborated in Agile cross-functional teams"
+    ]
+  },
+  "education": {
+    "description": "Bachelor's in Computer Science & Engineering — strong academic foundation with practical project exposure.",
+    "items": [
+      "Graduated from Ahsanullah University of Science and Technology",
+      "Served as the Joint Secretary of the AUST Innovation and Design Club",
+      "Thesis Publication : Depression Detection Through Smartphone Sensing: A Federated Learning Approach"
+    ]
+  },
+  "softSkills": {
+    "description": "Beyond the technical — qualities that make me a strong team member.",
+    "items": [
+      "Creative problem-solving mindset",
+      "Clear and concise communicator",
+      "Highly adaptable to new technologies",
+      "Detail-oriented and self-driven",
+      "Comfortable in fast-paced environments"
+    ]
+  }
+}

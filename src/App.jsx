@@ -1,55 +1,47 @@
-// src/App.jsx
 import React from 'react';
 import Sidebar from './Components/SideBar.jsx';
 import LandingScene from './Components/LandingScene.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
 import AboutScene from './Components/ContactMe.jsx';
 import SkillScene from './Components/SkillsPage.jsx';
+import AdminApp from './admin/AdminApp.jsx';
 
 import { motion } from 'framer-motion';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 export default function App() {
-
-
-    
   return (
-   
-    <div style={appStyle}>
-      {/* Sticky Sidebar */}
-      <Sidebar />
-
-      {/* Scrollable main content */}
-      <div style={contentStyle}>
-        <Section id="home"> 
-          <LandingScene />
-        </Section>
-
-        <Section id = "projects">
-          <ProjectsShowcase />
-        </Section>
-
-        <Section id = "skills">
-          <SkillScene />
-        </Section>
-        
-        <Section id = "contact">
-          <AboutScene />
-        </Section>
-        
-        {/* <Routes>
-        <Route path="/" element={<LandingScene />} />
-          <Route path="/projects" element={<ProjectsShowcase />} />
-          <Route path="/about" element={<AboutScene />} />
-          <Route path="/skills" element={<SkillScene />} />
-        </Routes> */}
-      </div>
-    </div>
-   
+    <Router>
+      <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/*" element={<Portfolio />} />
+      </Routes>
+    </Router>
   );
 }
 
-// Section Component with scroll animation
+function Portfolio() {
+  return (
+    <div style={appStyle}>
+      <Sidebar />
+      <div style={contentStyle}>
+        <Section id="home">
+          <LandingScene />
+        </Section>
+        <Section id="projects">
+          <ProjectsShowcase />
+        </Section>
+        <Section id="skills">
+          <SkillScene />
+        </Section>
+        <Section id="contact">
+          <AboutScene />
+        </Section>
+      </div>
+    </div>
+  );
+}
+
 function Section({ id, children }) {
   return (
     <motion.section
@@ -65,8 +57,6 @@ function Section({ id, children }) {
   );
 }
 
-
-// Styles
 const appStyle = {
   display: 'flex',
   overflowX: 'hidden',

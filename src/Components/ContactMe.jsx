@@ -3,22 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import RippleLine from './RippleLine';
 import ContactInfo from './ContactInfo';
+import { useResponsive } from '../hooks/useResponsive';
 
-// ─── Replace these three values with your EmailJS credentials ────────────────
-// Sign up free at https://www.emailjs.com/
-// 1. Create a service (Gmail/Outlook etc.) → copy the Service ID
-// 2. Create an email template with variables: {{from_name}}, {{from_email}}, {{message}}
-//    → copy the Template ID
-// 3. Account → API Keys → copy the Public Key
 const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
 const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-// ─────────────────────────────────────────────────────────────────────────────
 
 export default function ContactMe() {
   const formRef = useRef(null);
   const [fields, setFields] = useState({ from_name: '', from_email: '', message: '' });
-  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
+  const [status, setStatus] = useState('idle');
+  const { isMobile, isTablet } = useResponsive();
+  const isNarrow = isMobile || isTablet;
 
   const handleChange = (e) => {
     setFields(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,19 +23,6 @@ export default function ContactMe() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus('sending');
-    /*To activate it, you need to do 3 things on emailjs.com (free):
-    
-    Create a service — connect your Gmail/Outlook → copy the Service ID
-    Create a template — use these exact variable names in the template body:
-    {{from_name}}, {{from_email}}, {{message}} → copy the Template ID
-    Account → API Keys → copy your Public Key
-    Then replace the three placeholder values at the top of ContactMe.jsx:
-    
-    
-    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-     */
     emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY)
       .then(() => {
         setStatus('success');
@@ -54,9 +37,39 @@ export default function ContactMe() {
 
   const isSending = status === 'sending';
 
+  const pageStyle = {
+    ...contactPageStyle,
+    padding: isNarrow ? '1rem' : '2rem',
+    alignItems: isNarrow ? 'flex-start' : 'center',
+    overflowY: isNarrow ? 'auto' : 'hidden',
+  };
+
+  const rowStyle = {
+    ...contactRow,
+    flexDirection: isNarrow ? 'column' : 'row',
+    padding: isNarrow ? '1.5rem 1rem' : '2rem',
+    gap: isNarrow ? '1.5rem' : '2rem',
+    transform: isNarrow ? 'none' : 'rotateX(1deg) rotateY(2deg)',
+    minHeight: isNarrow ? 'auto' : '500px',
+  };
+
+  const leftStyle = {
+    ...contactLeft,
+    minWidth: isNarrow ? '100%' : '320px',
+    flex: 1,
+  };
+
+  const rightStyle = {
+    ...contactRight,
+    minWidth: isNarrow ? '100%' : '250px',
+    alignItems: isNarrow ? 'flex-start' : 'center',
+    borderTop: isNarrow ? '1px solid rgba(255,255,255,0.1)' : 'none',
+    paddingTop: isNarrow ? '1.5rem' : 0,
+  };
+
   return (
     <motion.div
-      style={contactPageStyle}
+      style={pageStyle}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
@@ -76,10 +89,10 @@ export default function ContactMe() {
       />
 
       <motion.div
-        style={contactRow}
-        whileHover={{ rotateX: 0, rotateY: 0, boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}
+        style={rowStyle}
+        whileHover={isNarrow ? {} : { rotateX: 0, rotateY: 0, boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}
       >
-        <div style={contactLeft}>
+        <div style={leftStyle}>
           <h1 style={contactTitle}>Contact Me</h1>
           <p style={contactSubText}>
             I'm always excited to connect! Drop me a message and I'll get back to you soon.
@@ -129,7 +142,6 @@ export default function ContactMe() {
               {isSending ? 'Sending…' : 'Send Message'}
             </motion.button>
 
-            {/* Feedback messages */}
             <AnimatePresence>
               {status === 'success' && (
                 <motion.p
@@ -155,7 +167,7 @@ export default function ContactMe() {
           </form>
         </div>
 
-        <div style={contactRight}>
+        <div style={rightStyle}>
           <ContactInfo />
         </div>
       </motion.div>
@@ -196,6 +208,7 @@ const contactPageStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxSizing: 'border-box',
 };
 
 const contactRow = {
@@ -217,11 +230,12 @@ const contactRow = {
   transform: 'rotateX(1deg) rotateY(2deg)',
   perspective: '1000px',
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  boxSizing: 'border-box',
 };
 
 const contactLeft = {
   flex: 1,
-  minWidth: '500px',
+  minWidth: '280px',
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
@@ -229,7 +243,7 @@ const contactLeft = {
 
 const contactRight = {
   flex: 1,
-  minWidth: '250px',
+  minWidth: '200px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -239,8 +253,9 @@ const contactRight = {
 };
 
 const contactTitle = {
-  fontSize: '2rem',
+  fontSize: 'clamp(1.4rem, 4vw, 2rem)',
   marginBottom: '0.5rem',
+  marginTop: 0,
   color: '#e4d4c8',
 };
 
@@ -248,6 +263,7 @@ const contactSubText = {
   fontSize: '1rem',
   color: '#ccc',
   marginBottom: '1rem',
+  margin: 0,
 };
 
 const formStyle = {
@@ -264,6 +280,8 @@ const inputStyle = {
   color: '#fff',
   fontSize: '1rem',
   outline: 'none',
+  width: '100%',
+  boxSizing: 'border-box',
 };
 
 const textareaStyle = {
@@ -280,4 +298,7 @@ const submitButton = {
   color: '#d0b49f',
   fontSize: '1rem',
   transition: 'all 0.3s ease',
+  width: '100%',
+  boxSizing: 'border-box',
+  cursor: 'pointer',
 };

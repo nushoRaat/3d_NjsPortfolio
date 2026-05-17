@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FloatingCircle from './FloatingCircle';
-import {
-  SiUnity, SiCplusplus, SiGit, SiUnrealengine, SiFigma, SiOpenai, SiDotnet,
-} from 'react-icons/si';
-import { FaJava, FaCode } from 'react-icons/fa';
+import { FaCode } from 'react-icons/fa';
+import { ICON_MAP } from '../admin/iconMap';
+import { fetchSkills } from '../api/portfolio';
+import { useResponsive } from '../hooks/useResponsive';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const TABS = ['Experience', 'Skills', 'Education', 'Soft Skills'];
 
-const DETAILS = {
+const DETAILS_FALLBACK = {
   Experience: {
     description: 'Over 3 years of hands-on industry experience building games and interactive applications.',
     items: [
@@ -21,15 +21,13 @@ const DETAILS = {
       'Collaborated in Agile cross-functional teams',
     ],
   },
-  Skills: {
-    description: 'Core technologies and tools I work with daily:',
-  },
+  Skills: { description: 'Core technologies and tools I work with daily:' },
   Education: {
     description: "Bachelor's in Computer Science & Engineering — strong academic foundation with practical project exposure.",
     items: [
       'Graduated from Ahsanullah University of Science and Technology',
       'Served as the Joint Secretary of the AUST Innovation and Design Club',
-      'Thesis Publication : Depression Detection Through Smartphone Sensing: A Federated Learning Approach ',
+      'Thesis Publication : Depression Detection Through Smartphone Sensing: A Federated Learning Approach',
     ],
   },
   'Soft Skills': {
@@ -44,20 +42,10 @@ const DETAILS = {
   },
 };
 
-const SKILLS = [
-  { name: 'Unity', level: 'Advanced', pct: 88, Icon: SiUnity, tooltip: '3 years professional experience' },
-  { name: 'C#', level: 'Advanced', pct: 85, Icon: SiDotnet, tooltip: 'Primary language in Unity' },
-  { name: 'C++', level: 'Intermediate', pct: 82, Icon: SiCplusplus, tooltip: 'Systems & game logic' },
-  { name: 'Java', level: 'Intermediate', pct: 90, Icon: FaJava, tooltip: 'OOP, data structures' },
-  { name: 'Git', level: 'Advanced', pct: 65, Icon: SiGit, tooltip: 'Version control, branching' },
-  { name: 'Unreal Engine', level: 'Basic', pct: 60, Icon: SiUnrealengine, tooltip: 'Blueprints, level design' },
-  { name: 'Visual Studio', level: 'Advanced', pct: 92, Icon: FaCode, tooltip: 'Primary IDE' },
-  { name: 'Figma', level: 'Intermediate', pct: 55, Icon: SiFigma, tooltip: 'UI/UX prototyping' },
-  { name: 'Generative AI Tools', level: 'Advanced', pct: 55, Icon: SiOpenai, tooltip: 'ChatGPT, Claude, Midjourney' },
-];
+const SKILLS_FALLBACK = [];
 
 const LEVEL_COLOR = {
-  Advanced: '#e4d4c8',
+  Advanced: '#c8a84b',
   Intermediate: '#a3785b',
   Basic: '#917463ff',
 };
@@ -66,7 +54,8 @@ const LEVEL_COLOR = {
 
 function SkillCard({ skill, index }) {
   const [hovered, setHovered] = useState(false);
-  const { name, level, pct, Icon, tooltip } = skill;
+  const { name, level, pct, iconKey, tooltip } = skill;
+  const Icon = ICON_MAP[iconKey] || FaCode;
 
   return (
     <motion.div
@@ -86,13 +75,8 @@ function SkillCard({ skill, index }) {
       onMouseLeave={() => setHovered(false)}
       role="listitem"
     >
-      {/* Icon */}
       <Icon size={28} color={LEVEL_COLOR[level]} style={{ marginBottom: '0.5rem' }} />
-
-      {/* Name */}
       <h4 style={skillNameStyle}>{name}</h4>
-
-      {/* Proficiency bar */}
       <div style={barTrackStyle}>
         <motion.div
           style={{ ...barFillStyle, background: LEVEL_COLOR[level] }}
@@ -101,11 +85,7 @@ function SkillCard({ skill, index }) {
           transition={{ duration: 0.8, delay: index * 0.06 + 0.2, ease: 'easeOut' }}
         />
       </div>
-
-      {/* Level label */}
       <p style={{ ...levelLabelStyle, color: LEVEL_COLOR[level] }}>{level}</p>
-
-      {/* Tooltip */}
       <AnimatePresence>
         {hovered && (
           <motion.div
@@ -137,35 +117,167 @@ function DetailCard({ item, index }) {
   );
 }
 
+// ─── Gamification Components ─────────────────────────────────────────────────
+
+function BackgroundGrid() {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      backgroundImage: 'radial-gradient(rgba(228,212,200,0.07) 1px, transparent 1px)',
+      backgroundSize: '28px 28px',
+      pointerEvents: 'none', zIndex: 0,
+    }} />
+  );
+}
+
+function Scanlines() {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px)',
+      pointerEvents: 'none', zIndex: 3,
+    }} />
+  );
+}
+
+function HUDCorners() {
+  return (
+    <>
+      <div style={{ ...hudCornerBase, top: '1rem', left: '1rem', borderTop: '2px solid rgba(200,168,75,0.5)', borderLeft: '2px solid rgba(200,168,75,0.5)' }} />
+      <div style={{ ...hudCornerBase, top: '1rem', right: '1rem', borderTop: '2px solid rgba(200,168,75,0.5)', borderRight: '2px solid rgba(200,168,75,0.5)' }} />
+      <div style={{ ...hudCornerBase, bottom: '1rem', left: '1rem', borderBottom: '2px solid rgba(200,168,75,0.5)', borderLeft: '2px solid rgba(200,168,75,0.5)' }} />
+      <div style={{ ...hudCornerBase, bottom: '1rem', right: '1rem', borderBottom: '2px solid rgba(200,168,75,0.5)', borderRight: '2px solid rgba(200,168,75,0.5)' }} />
+    </>
+  );
+}
+
+const ACHIEVEMENT_NAMES = {
+  Experience: 'EXPERIENCE UNLOCKED',
+  Skills: 'SKILL TREE OPENED',
+  Education: 'LORE DISCOVERED',
+  'Soft Skills': 'PERK EQUIPPED',
+};
+
+function AchievementToast({ section }) {
+  return (
+    <motion.div
+      style={achievementToastStyle}
+      initial={{ opacity: 0, x: 80 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 80 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+    >
+      <span style={{ fontSize: '1.4rem' }}>🏆</span>
+      <div>
+        <p style={achievementTitleStyle}>ACHIEVEMENT</p>
+        <p style={achievementNameStyle}>{ACHIEVEMENT_NAMES[section] || section.toUpperCase()}</p>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function SkillScene() {
   const [activeSection, setActiveSection] = useState('Experience');
+  const [skills, setSkills] = useState(SKILLS_FALLBACK);
+  const [details, setDetails] = useState(DETAILS_FALLBACK);
+  const { isMobile, isTablet } = useResponsive();
+  const isNarrow = isMobile || isTablet;
+
+  useEffect(() => {
+    fetchSkills().then(data => {
+      if (data.skills) setSkills(data.skills);
+      if (data.experience || data.education || data.softSkills) {
+        setDetails({
+          Experience: data.experience || DETAILS_FALLBACK.Experience,
+          Skills: { description: 'Core technologies and tools I work with daily:' },
+          Education: data.education || DETAILS_FALLBACK.Education,
+          'Soft Skills': data.softSkills || DETAILS_FALLBACK['Soft Skills'],
+        });
+      }
+    }).catch(() => { });
+  }, []);
+
+  const isMounted = useRef(false);
+  const [toastSection, setToastSection] = useState(null);
+  useEffect(() => {
+    if (!isMounted.current) { isMounted.current = true; return; }
+    setToastSection(activeSection);
+    const t = setTimeout(() => setToastSection(null), 2200);
+    return () => clearTimeout(t);
+  }, [activeSection]);
+
+  const twoColStyle = {
+    ...twoColumnContainer,
+    flexDirection: isNarrow ? 'column' : 'row',
+    gap: isNarrow ? '1rem' : '2rem',
+    overflowY: isNarrow ? 'auto' : 'visible',
+    flex: isNarrow ? 1 : undefined,
+    width: '100%',
+  };
+
+  const leftColStyle = {
+    ...leftColumn,
+    borderRight: isNarrow ? 'none' : '1px solid rgba(208,180,159,0.4)',
+    borderBottom: isNarrow ? '1px solid rgba(208,180,159,0.3)' : 'none',
+    paddingRight: isNarrow ? 0 : '1.5rem',
+    paddingBottom: isNarrow ? '1rem' : 0,
+    flex: isNarrow ? 'none' : 1,
+  };
+
+  const tabGroupStyle = {
+    ...buttonGroup,
+    flexDirection: isNarrow ? 'row' : 'column',
+    flexWrap: isNarrow ? 'wrap' : 'nowrap',
+    gap: isNarrow ? '0.4rem' : '0.6rem',
+  };
+
+  const rightColStyle = {
+    ...rightColumn,
+    height: isNarrow ? 'auto' : '420px',
+    flex: isNarrow ? 1 : 2,
+    minHeight: isNarrow ? '280px' : undefined,
+    maxHeight: isNarrow ? '50vh' : undefined,
+    paddingLeft: isNarrow ? 0 : '1.5rem',
+  };
+
+  const pageStyle = {
+    ...skillsPageStyle,
+    padding: isNarrow ? '1rem' : '2rem',
+  };
 
   return (
     <motion.div
-      style={skillsPageStyle}
+      style={pageStyle}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: false, amount: 0.3 }}
     >
-      <FloatingCircle position={{ top: '30%', right: '3rem' }} size={400} color="#e4d4c8" />
-      <FloatingCircle position={{ bottom: '10%', left: '2rem' }} size={150} color="#D0B49F" />
+      <BackgroundGrid />
+      <Scanlines />
+      <HUDCorners />
 
-      <div style={twoColumnContainer}>
+      {/* Decorative spheres — hidden on mobile to avoid overlap */}
+      {!isMobile && (
+        <FloatingCircle position={{ top: '30%', right: '3rem' }} size={400} color="#e4d4c8" />
+      )}
+      {!isNarrow && (
+        <FloatingCircle position={{ bottom: '10%', left: '2rem' }} size={150} color="#D0B49F" />
+      )}
+
+      <div style={twoColStyle}>
         {/* ── Left Column ── */}
-        <div style={leftColumn}>
-          {/* Title with decorative accent */}
+        <div style={leftColStyle}>
           <div style={titleBlockStyle}>
             <p style={nameTagStyle}>Nushrat Jahan</p>
-            <h1 style={whyHireMeTitle}>Why Hire Me</h1>
+            <h1 style={{ ...whyHireMeTitle, fontSize: isNarrow ? '1.5rem' : '2rem' }}>Why Hire Me</h1>
             <div style={titleDivider} />
             <p style={subText}>Discover what makes me a strong candidate</p>
           </div>
 
-          {/* Tab buttons with sliding pill indicator */}
-          <div style={buttonGroup} role="tablist" aria-label="Sections">
+          <div style={tabGroupStyle} role="tablist" aria-label="Sections">
             {TABS.map(section => (
               <motion.button
                 key={section}
@@ -178,11 +290,12 @@ export default function SkillScene() {
                   borderColor: activeSection === section ? 'transparent' : '#d0b49f',
                   borderLeftColor: activeSection === section ? '#e4d4c8' : '#d0b49f',
                   borderLeftWidth: activeSection === section ? '3px' : '1px',
+                  fontSize: isNarrow ? '0.82rem' : '0.95rem',
+                  padding: isNarrow ? '0.45rem 0.8rem' : '0.65rem 1.2rem',
                 }}
-                whileHover={{ x: 4 }}
+                whileHover={{ x: isNarrow ? 0 : 4 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
-                {/* Sliding pill background */}
                 {activeSection === section && (
                   <motion.span
                     layoutId="activePill"
@@ -197,7 +310,7 @@ export default function SkillScene() {
         </div>
 
         {/* ── Right Column ── */}
-        <div style={rightColumn} role="tabpanel">
+        <div style={rightColStyle} role="tabpanel">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
@@ -207,18 +320,20 @@ export default function SkillScene() {
               transition={{ duration: 0.35 }}
               style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
             >
-              <h2 style={activeTitle}>My {activeSection}</h2>
-              <p style={detailsText}>{DETAILS[activeSection].description}</p>
+              <h2 style={{ ...activeTitle, fontSize: isNarrow ? '1.3rem' : '1.6rem' }}>
+                My {activeSection}
+              </h2>
+              <p style={detailsText}>{details[activeSection]?.description}</p>
 
               {activeSection === 'Skills' ? (
                 <div style={skillsGrid} role="list">
-                  {SKILLS.map((skill, i) => (
-                    <SkillCard key={skill.name} skill={skill} index={i} />
+                  {skills.map((skill, i) => (
+                    <SkillCard key={skill.id || skill.name} skill={skill} index={i} />
                   ))}
                 </div>
               ) : (
                 <div style={detailGrid}>
-                  {DETAILS[activeSection].items?.map((item, idx) => (
+                  {details[activeSection]?.items?.map((item, idx) => (
                     <DetailCard key={idx} item={item} index={idx} />
                   ))}
                 </div>
@@ -227,6 +342,10 @@ export default function SkillScene() {
           </AnimatePresence>
         </div>
       </div>
+
+      <AnimatePresence>
+        {toastSection && <AchievementToast key={toastSection} section={toastSection} />}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -245,6 +364,7 @@ const skillsPageStyle = {
   color: '#fff',
   position: 'relative',
   overflow: 'hidden',
+  boxSizing: 'border-box',
 };
 
 const twoColumnContainer = {
@@ -438,4 +558,50 @@ const detailBullet = {
   color: '#e4d4c8',
   fontSize: '0.7rem',
   flexShrink: 0,
+};
+
+// ─── Gamification Styles ─────────────────────────────────────────────────────
+
+const hudCornerBase = {
+  position: 'absolute',
+  width: '20px',
+  height: '20px',
+  pointerEvents: 'none',
+  zIndex: 4,
+};
+
+const achievementToastStyle = {
+  position: 'fixed',
+  bottom: '2rem',
+  right: '1rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  background: 'rgba(20,12,8,0.92)',
+  border: '1px solid rgba(200,168,75,0.4)',
+  borderLeft: '3px solid #c8a84b',
+  borderRadius: '8px',
+  padding: '0.7rem 1rem',
+  zIndex: 100,
+  backdropFilter: 'blur(8px)',
+  WebkitBackdropFilter: 'blur(8px)',
+  boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+  minWidth: '180px',
+  maxWidth: 'calc(100vw - 2rem)',
+};
+
+const achievementTitleStyle = {
+  margin: 0,
+  fontSize: '0.6rem',
+  letterSpacing: '0.15em',
+  color: '#c8a84b',
+  textTransform: 'uppercase',
+};
+
+const achievementNameStyle = {
+  margin: 0,
+  fontSize: '0.85rem',
+  fontWeight: 700,
+  color: '#e4d4c8',
+  letterSpacing: '0.05em',
 };
