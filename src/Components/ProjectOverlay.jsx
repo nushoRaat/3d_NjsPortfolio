@@ -46,7 +46,7 @@ export default function ProjectOverlay({ project, onClose }) {
               <motion.button
                 style={escButton}
                 onClick={onClose}
-                whileHover={{ backgroundColor: '#d0b49f22', color: '#fff' }}
+                whileHover={{ backgroundColor: '#505BE622', color: '#fff' }}
                 whileTap={{ scale: 0.93 }}
               >
                 [ ESC ]
@@ -93,7 +93,7 @@ export default function ProjectOverlay({ project, onClose }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              <span style={{ color: '#d0b49f', marginRight: '0.4rem' }}>▸</span>
+              <span style={{ color: '#505BE6', marginRight: '0.4rem' }}>▸</span>
               {project.description}
             </motion.p>
 
@@ -161,9 +161,9 @@ export default function ProjectOverlay({ project, onClose }) {
                   style={playBtn}
                   whileHover={{
                     scale: 1.04,
-                    boxShadow: '0 0 24px #d0b49f55, 0 0 8px #d0b49f88',
+                    boxShadow: '0 0 24px #505BE655, 0 0 8px #505BE688',
                     color: '#fff',
-                    borderColor: '#e4d4c8',
+                    borderColor: '#c8d0ff',
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
@@ -184,7 +184,7 @@ export default function ProjectOverlay({ project, onClose }) {
 const overlayStyle = {
   position: 'fixed',
   inset: 0,
-  backgroundColor: 'rgba(5, 3, 2, 0.85)',
+  backgroundColor: 'rgba(5, 8, 18,0.85)',
   backgroundImage:
     'repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 4px)',
   display: 'flex',
@@ -199,20 +199,20 @@ const panelStyle = {
   maxWidth: '640px',
   maxHeight: '85vh',
   overflowY: 'auto',
-  background: 'linear-gradient(160deg, #1c100a 0%, #0e0906 100%)',
-  border: '1px solid #a3785b',
+  background: 'linear-gradient(160deg, #0d1025 0%, #0a0d1a 100%)',
+  border: '1px solid #224D75',
   borderRadius: '4px',
   boxShadow:
-    '0 0 35px #a3785b44, 0 0 70px #52291522, inset 0 0 40px rgba(0,0,0,0.55)',
+    '0 0 35px #224D7544, 0 0 70px #52291522, inset 0 0 40px rgba(0,0,0,0.55)',
   padding: '2rem',
 };
 
 // L-shaped HUD corner brackets
 const cornerBase = { position: 'absolute', width: '18px', height: '18px' };
-const cornerTL = { ...cornerBase, top: 10, left: 10, borderTop: '2px solid #d0b49f', borderLeft: '2px solid #d0b49f' };
-const cornerTR = { ...cornerBase, top: 10, right: 10, borderTop: '2px solid #d0b49f', borderRight: '2px solid #d0b49f' };
-const cornerBL = { ...cornerBase, bottom: 10, left: 10, borderBottom: '2px solid #d0b49f', borderLeft: '2px solid #d0b49f' };
-const cornerBR = { ...cornerBase, bottom: 10, right: 10, borderBottom: '2px solid #d0b49f', borderRight: '2px solid #d0b49f' };
+const cornerTL = { ...cornerBase, top: 10, left: 10, borderTop: '2px solid #505BE6', borderLeft: '2px solid #505BE6' };
+const cornerTR = { ...cornerBase, top: 10, right: 10, borderTop: '2px solid #505BE6', borderRight: '2px solid #505BE6' };
+const cornerBL = { ...cornerBase, bottom: 10, left: 10, borderBottom: '2px solid #505BE6', borderLeft: '2px solid #505BE6' };
+const cornerBR = { ...cornerBase, bottom: 10, right: 10, borderBottom: '2px solid #505BE6', borderRight: '2px solid #505BE6' };
 
 const topBar = {
   display: 'flex',
@@ -225,13 +225,13 @@ const systemTag = {
   fontFamily: 'monospace',
   fontSize: '0.68rem',
   letterSpacing: '0.12em',
-  color: '#a3785b',
+  color: '#224D75',
 };
 
 const escButton = {
   background: 'transparent',
-  border: '1px solid #a3785b',
-  color: '#a3785b',
+  border: '1px solid #224D75',
+  color: '#224D75',
   fontFamily: 'monospace',
   fontSize: '0.68rem',
   letterSpacing: '0.08em',
@@ -248,7 +248,7 @@ const titleBlock = {
 const titleAccentBar = {
   width: '36px',
   height: '3px',
-  background: 'linear-gradient(90deg, #d0b49f, #a3785b)',
+  background: 'linear-gradient(90deg, #505BE6, #224D75)',
   borderRadius: '2px',
   marginBottom: '0.5rem',
 };
@@ -257,16 +257,16 @@ const titleText = {
   margin: '0 0 0.6rem',
   fontSize: '1.85rem',
   fontWeight: 700,
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   letterSpacing: '0.02em',
   lineHeight: 1.1,
 };
 
 const langBadge = {
   display: 'inline-block',
-  background: 'rgba(208,180,159,0.1)',
-  border: '1px solid rgba(208,180,159,0.35)',
-  color: '#d0b49f',
+  background: 'rgba(80,91,230,0.1)',
+  border: '1px solid rgba(80,91,230,0.35)',
+  color: '#505BE6',
   fontFamily: 'monospace',
   fontSize: '0.7rem',
   letterSpacing: '0.1em',
@@ -277,7 +277,7 @@ const langBadge = {
 
 const hrLine = {
   height: '1px',
-  background: 'linear-gradient(90deg, #a3785b 0%, transparent 100%)',
+  background: 'linear-gradient(90deg, #224D75 0%, transparent 100%)',
   marginBottom: '1.1rem',
   transformOrigin: 'left',
 };
@@ -293,9 +293,9 @@ const roleLabel = {
   fontFamily: 'monospace',
   fontSize: '0.62rem',
   letterSpacing: '0.14em',
-  color: '#a3785b',
-  background: 'rgba(163,120,91,0.12)',
-  border: '1px solid rgba(163,120,91,0.3)',
+  color: '#224D75',
+  background: 'rgba(34,77,117,0.12)',
+  border: '1px solid rgba(34,77,117,0.3)',
   padding: '2px 8px',
   borderRadius: '2px',
 };
@@ -303,7 +303,7 @@ const roleLabel = {
 const roleValue = {
   fontFamily: 'monospace',
   fontSize: '0.82rem',
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   letterSpacing: '0.04em',
 };
 
@@ -316,7 +316,7 @@ const descText = {
 
 const videoWrapper = {
   marginTop: '1rem',
-  border: '1px solid rgba(163,120,91,0.35)',
+  border: '1px solid rgba(34,77,117,0.35)',
   borderRadius: '3px',
   overflow: 'hidden',
   background: '#000',
@@ -325,12 +325,12 @@ const videoWrapper = {
 const videoCaption = {
   display: 'block',
   padding: '5px 12px',
-  background: '#110a06',
-  borderBottom: '1px solid rgba(163,120,91,0.3)',
+  background: '#080c18',
+  borderBottom: '1px solid rgba(34,77,117,0.3)',
   fontFamily: 'monospace',
   fontSize: '0.62rem',
   letterSpacing: '0.18em',
-  color: '#a3785b',
+  color: '#224D75',
 };
 
 const videoEl = {
@@ -340,7 +340,7 @@ const videoEl = {
 
 const galleryWrapper = {
   marginTop: '1rem',
-  border: '1px solid rgba(163,120,91,0.35)',
+  border: '1px solid rgba(34,77,117,0.35)',
   borderRadius: '3px',
   overflow: 'hidden',
   background: '#000',
@@ -351,7 +351,7 @@ const galleryGrid = {
   gridTemplateColumns: '1fr 1fr',
   gap: '3px',
   padding: '3px',
-  background: '#110a06',
+  background: '#080c18',
 };
 
 const galleryLeft = {
@@ -387,8 +387,8 @@ const playBtn = {
   alignItems: 'center',
   padding: '0.7rem 2rem',
   background: 'transparent',
-  border: '1px solid #d0b49f',
-  color: '#d0b49f',
+  border: '1px solid #505BE6',
+  color: '#505BE6',
   fontFamily: 'monospace',
   fontSize: '0.82rem',
   letterSpacing: '0.14em',

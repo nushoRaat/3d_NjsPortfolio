@@ -20,7 +20,7 @@ export default function ProjectsShowcase() {
   const throttleRef = useRef(false);
 
   useEffect(() => {
-    fetchProjects().then(data => setProjects(data)).catch(() => {});
+    fetchProjects().then(data => setProjects(data)).catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function ProjectsShowcase() {
       throttleRef.current = true;
       if (swooshRef.current) {
         swooshRef.current.currentTime = 0;
-        swooshRef.current.play().catch(() => {});
+        swooshRef.current.play().catch(() => { });
       }
       setTimeout(() => { throttleRef.current = false; }, 150);
     };
@@ -46,14 +46,14 @@ export default function ProjectsShowcase() {
     setSelectedProject(project);
     if (clickRef.current) {
       clickRef.current.currentTime = 0;
-      clickRef.current.play().catch(() => {});
+      clickRef.current.play().catch(() => { });
     }
   }, []);
 
   // Scale cards down on smaller screens
-  const cardWidth  = isMobile ? 90  : isTablet ? 105 : 120;
+  const cardWidth = isMobile ? 90 : isTablet ? 105 : 120;
   const cardHeight = isMobile ? 135 : isTablet ? 158 : 180;
-  const tableGap   = isMobile ? '1.2rem' : isTablet ? '1.8rem' : '3rem';
+  const tableGap = isMobile ? '1.2rem' : isTablet ? '1.8rem' : '3rem';
   const tableBorder = isMobile ? '8px' : isTablet ? '12px' : '20px';
 
   const tableStyle = {
@@ -68,7 +68,7 @@ export default function ProjectsShowcase() {
     flexWrap: 'wrap',
     padding: isNarrow ? '1rem' : '2rem',
     position: 'relative',
-    border: `${tableBorder} solid #523a28`,
+    border: `${tableBorder} solid #505BE6`,
     borderRadius: isNarrow ? '16px' : '30px',
     boxSizing: 'border-box',
     boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)',
@@ -287,8 +287,8 @@ const flipCueStyle = {
 const flipCueIcon = {
   display: 'inline-block',
   fontSize: '1.2rem',
-  color: '#d4af37',
-  textShadow: '0 0 6px rgba(212,175,55,0.4)',
+  color: '#9C1FE8',
+  textShadow: '0 0 6px rgba(156,31,232,0.4)',
 };
 
 const flipCueText = {

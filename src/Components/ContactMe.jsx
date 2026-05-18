@@ -80,7 +80,7 @@ export default function ContactMe() {
         y="85%"
         width={1980}
         height={50}
-        color="#d0b49f"
+        color="#505BE6"
         waveAmplitude={10}
         waveFrequency={0.15}
         speed={0.25}
@@ -136,7 +136,7 @@ export default function ContactMe() {
                 opacity: isSending ? 0.6 : 1,
                 cursor: isSending ? 'not-allowed' : 'pointer',
               }}
-              whileHover={isSending ? {} : { scale: 1.05, backgroundColor: '#e4d4c8', color: '#000' }}
+              whileHover={isSending ? {} : { scale: 1.05, backgroundColor: '#c8d0ff', color: '#000' }}
               disabled={isSending}
             >
               {isSending ? 'Sending…' : 'Send Message'}
@@ -194,14 +194,14 @@ const contactPageStyle = {
   background: `
     linear-gradient(
       to right,
-      #523a28 0%,
-      #523a28 20%,
-      #6d4e35 30%,
-      #6d4e35 45%,
-      #A47551 55%,
-      #A47551 75%,
-      #D0B49F 85%,
-      #D0B49F 100%
+      #121D30 0%,
+      #121D30 15%,
+      #271198 30%,
+      #271198 40%,
+      #4F229E 52%,
+      #4F229E 65%,
+      #505BE6 85%,
+      #505BE6 100%
     )
   `,
   color: '#fff',
@@ -256,7 +256,7 @@ const contactTitle = {
   fontSize: 'clamp(1.4rem, 4vw, 2rem)',
   marginBottom: '0.5rem',
   marginTop: 0,
-  color: '#e4d4c8',
+  color: '#c8d0ff',
 };
 
 const contactSubText = {
@@ -275,7 +275,7 @@ const formStyle = {
 const inputStyle = {
   padding: '0.75rem 1rem',
   borderRadius: '5px',
-  border: '1px solid #d0b49f',
+  border: '1px solid #505BE6',
   background: 'transparent',
   color: '#fff',
   fontSize: '1rem',
@@ -293,9 +293,9 @@ const textareaStyle = {
 const submitButton = {
   padding: '0.75rem 1rem',
   borderRadius: '5px',
-  border: '1px solid #d0b49f',
+  border: '1px solid #505BE6',
   backgroundColor: 'transparent',
-  color: '#d0b49f',
+  color: '#505BE6',
   fontSize: '1rem',
   transition: 'all 0.3s ease',
   width: '100%',

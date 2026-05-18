@@ -173,7 +173,7 @@ function PlayerHUDCard({ bio, isMobile, isTablet }) {
                     <span style={handlePrefix}>@</span>
                     {typedHandle}
                     {typedHandle.length < HANDLE.length && (
-                      <span style={{ opacity: cursorOn ? 1 : 0, color: '#c8a84b' }}>█</span>
+                      <span style={{ opacity: cursorOn ? 1 : 0, color: '#9C1FE8' }}>█</span>
                     )}
                   </p>
 
@@ -222,9 +222,9 @@ function PlayerHUDCard({ bio, isMobile, isTablet }) {
                       style={xpTip}
                       animate={{
                         boxShadow: [
-                          '0 0 4px 2px rgba(200,168,75,0.5)',
-                          '0 0 12px 4px rgba(200,168,75,0.95)',
-                          '0 0 4px 2px rgba(200,168,75,0.5)',
+                          '0 0 4px 2px rgba(156,31,232,0.5)',
+                          '0 0 12px 4px rgba(156,31,232,0.95)',
+                          '0 0 4px 2px rgba(156,31,232,0.5)',
                         ]
                       }}
                       transition={{ duration: 1.6, repeat: Infinity }}
@@ -315,7 +315,7 @@ export default function LandingScene() {
           <ambientLight intensity={0.3} />
 
           <Sparkles count={isNarrow ? 40 : 80} scale={12} size={2}
-            speed={0.3} color="#e4d4c8" opacity={0.4} />
+            speed={0.3} color="#c8d0ff" opacity={0.4} />
 
           <Float speed={2} rotationIntensity={0.8} floatIntensity={1.5}>
             <group position={modelPos}>
@@ -342,24 +342,24 @@ export default function LandingScene() {
 
 const pageStyle = {
   width: '100vw', height: '100vh',
-  background: 'linear-gradient(145deg, #523a28, #6d4e35, #a3785b, #e4d4c8)',
+  background: 'linear-gradient(145deg, #121D30, #121D30, #271198, #505BE6)',
   position: 'relative', overflow: 'hidden',
 };
 
 const glowAura = {
   position: 'absolute', inset: '-12px', borderRadius: '22px',
-  background: 'radial-gradient(ellipse at 30% 50%, rgba(200,168,75,0.22) 0%, transparent 65%)',
+  background: 'radial-gradient(ellipse at 30% 50%, rgba(156,31,232,0.22) 0%, transparent 65%)',
   pointerEvents: 'none', zIndex: 0,
 };
 
 const cardStyle = {
   position: 'relative',
-  background: 'linear-gradient(160deg, rgba(10, 6, 3, 0.52) 0%, rgba(20, 12, 6, 0.81) 55%, rgba(10,6,3,0.96) 100%)',
-  border: '1px solid rgba(200,168,75,0.38)',
+  background: 'linear-gradient(160deg, rgba(10,13,25,0.96) 0%, rgba(15,12,40,0.98) 55%, rgba(10,13,25,0.96) 100%)',
+  border: '1px solid rgba(156,31,232,0.38)',
   borderRadius: '14px',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
-  boxShadow: '0 0 40px rgba(200,168,75,0.14), 0 16px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(200,168,75,0.18)',
+  boxShadow: '0 0 40px rgba(156,31,232,0.14), 0 16px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(156,31,232,0.18)',
   overflow: 'hidden',
 };
 
@@ -370,11 +370,11 @@ const scanlines = {
 
 const scanSweep = {
   position: 'absolute', left: 0, right: 0, height: '32px',
-  background: 'linear-gradient(to bottom, transparent, rgba(200,168,75,0.07) 50%, transparent)',
+  background: 'linear-gradient(to bottom, transparent, rgba(156,31,232,0.07) 50%, transparent)',
   pointerEvents: 'none', zIndex: 1,
 };
 
-const cb = '1.5px solid rgba(200,168,75,0.65)';
+const cb = '1.5px solid rgba(156,31,232,0.65)';
 const corner = { position: 'absolute', width: 13, height: 13, pointerEvents: 'none', zIndex: 5 };
 
 const inner = {
@@ -388,7 +388,7 @@ const headerRow = { display: 'flex', alignItems: 'center', justifyContent: 'spac
 
 const sysLabel = {
   fontSize: '0.6rem', letterSpacing: '0.16em',
-  color: 'rgba(200,168,75,0.55)', textTransform: 'uppercase', fontFamily: 'monospace',
+  color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: 'monospace',
 };
 
 const activeBadge = {
@@ -405,7 +405,7 @@ const activeDot = {
 
 const goldRule = {
   height: '1px',
-  background: 'linear-gradient(90deg, rgba(200,168,75,0.8), rgba(200,168,75,0.15), transparent)',
+  background: 'linear-gradient(90deg, rgba(156,31,232,0.8), rgba(156,31,232,0.15), transparent)',
   transformOrigin: 'left',
 };
 
@@ -416,57 +416,57 @@ const avatarWrap = { position: 'relative', flexShrink: 0, width: 64, height: 64 
 
 const avatarRing = {
   position: 'absolute', inset: -5, borderRadius: '12px',
-  border: '2px solid rgba(200,168,75,0.55)', background: 'transparent', pointerEvents: 'none',
+  border: '2px solid rgba(156,31,232,0.55)', background: 'transparent', pointerEvents: 'none',
 };
 
 const avatarImg = {
   width: 64, height: 64, borderRadius: '9px',
   backgroundImage: 'url("public/images/logo2.png")',
   backgroundSize: 'cover', backgroundPosition: 'center',
-  border: '1px solid rgba(200,168,75,0.35)',
+  border: '1px solid rgba(156,31,232,0.35)',
 };
 
 const nameBlock = { flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 };
 
 const realName = {
   margin: 0,
-  fontSize: '1.2rem', fontWeight: 800, color: '#f0e6da',
+  fontSize: '1.2rem', fontWeight: 800, color: '#e8e0ff',
   letterSpacing: '0.03em', lineHeight: 1.15,
 };
 
 const handleStyle = {
   margin: 0,
-  fontSize: '0.82rem', fontWeight: 600, color: '#c8a84b',
+  fontSize: '0.82rem', fontWeight: 600, color: '#9C1FE8',
   letterSpacing: '0.02em', fontFamily: 'monospace',
   minHeight: '1.1em',
 };
 
 const handlePrefix = {
-  color: 'rgba(200,168,75,0.45)', marginRight: '1px',
+  color: 'rgba(156,31,232,0.45)', marginRight: '1px',
 };
 
 const classTag = {
   margin: 0,
-  fontSize: '0.7rem', color: '#a3785b', letterSpacing: '0.06em',
+  fontSize: '0.7rem', color: '#224D75', letterSpacing: '0.06em',
 };
 
 const lvlBadge = {
   flexShrink: 0, alignSelf: 'flex-start',
   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
   width: 46, height: 46,
-  background: 'linear-gradient(135deg, rgba(200,168,75,0.22), rgba(200,168,75,0.06))',
-  border: '1px solid rgba(200,168,75,0.55)',
+  background: 'linear-gradient(135deg, rgba(156,31,232,0.22), rgba(156,31,232,0.06))',
+  border: '1px solid rgba(156,31,232,0.55)',
   borderRadius: '8px',
-  boxShadow: '0 0 14px rgba(200,168,75,0.2)',
+  boxShadow: '0 0 14px rgba(156,31,232,0.2)',
 };
 
-const lvlNum = { fontSize: '1.15rem', fontWeight: 900, color: '#c8a84b', lineHeight: 1, fontFamily: 'monospace' };
-const lvlLbl = { fontSize: '0.42rem', letterSpacing: '0.16em', color: 'rgba(200,168,75,0.55)', textTransform: 'uppercase', fontFamily: 'monospace' };
+const lvlNum = { fontSize: '1.15rem', fontWeight: 900, color: '#9C1FE8', lineHeight: 1, fontFamily: 'monospace' };
+const lvlLbl = { fontSize: '0.42rem', letterSpacing: '0.16em', color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: 'monospace' };
 
 // Bio
 const bioSection = {
-  background: 'rgba(200,168,75,0.04)',
-  border: '1px solid rgba(200,168,75,0.14)',
+  background: 'rgba(156,31,232,0.04)',
+  border: '1px solid rgba(156,31,232,0.14)',
   borderRadius: '8px',
   padding: '0.65rem 0.75rem',
 };
@@ -477,19 +477,19 @@ const bioHeader = {
 
 const bioRule = {
   flex: 1, height: '1px',
-  background: 'linear-gradient(90deg, transparent, rgba(200,168,75,0.35))',
+  background: 'linear-gradient(90deg, transparent, rgba(156,31,232,0.35))',
 };
 
 const bioLabel = {
   fontSize: '0.52rem', letterSpacing: '0.18em',
-  color: 'rgba(200,168,75,0.5)', textTransform: 'uppercase', fontFamily: 'monospace',
+  color: 'rgba(156,31,232,0.5)', textTransform: 'uppercase', fontFamily: 'monospace',
   flexShrink: 0,
 };
 
 const bioText = {
   margin: 0,
   fontSize: '0.82rem', lineHeight: 1.65,
-  color: 'rgba(228,212,200,0.75)',
+  color: 'rgba(200,210,255,0.75)',
   fontStyle: 'italic',
 };
 
@@ -498,7 +498,7 @@ const xpRow = { display: 'flex', alignItems: 'center', gap: '0.6rem' };
 
 const xpLabel = {
   fontSize: '0.56rem', letterSpacing: '0.14em',
-  color: 'rgba(228,212,200,0.4)', textTransform: 'uppercase', flexShrink: 0,
+  color: 'rgba(200,210,255,0.4)', textTransform: 'uppercase', flexShrink: 0,
 };
 
 const xpTrack = {
@@ -509,17 +509,17 @@ const xpTrack = {
 
 const xpFill = {
   height: '100%',
-  background: 'linear-gradient(90deg, #6b4726, #a3785b, #c8a84b)',
+  background: 'linear-gradient(90deg, #271198, #224D75, #9C1FE8)',
   borderRadius: '4px', position: 'relative',
 };
 
 const xpTip = {
   position: 'absolute', right: -4, top: '50%', transform: 'translateY(-50%)',
-  width: 10, height: 10, borderRadius: '50%', background: '#c8a84b',
+  width: 10, height: 10, borderRadius: '50%', background: '#9C1FE8',
 };
 
 const xpPct = {
-  fontSize: '0.62rem', fontWeight: 700, color: '#c8a84b',
+  fontSize: '0.62rem', fontWeight: 700, color: '#9C1FE8',
   letterSpacing: '0.05em', flexShrink: 0, fontFamily: 'monospace',
 };
 
@@ -527,11 +527,11 @@ const xpPct = {
 const statChip = {
   display: 'flex', alignItems: 'center', gap: '0.55rem',
   padding: '0.4rem 0.8rem',
-  background: 'rgba(200,168,75,0.07)',
-  border: '1px solid rgba(200,168,75,0.2)',
+  background: 'rgba(156,31,232,0.07)',
+  border: '1px solid rgba(156,31,232,0.2)',
   borderRadius: '7px',
 };
 
-const chipIcon = { fontSize: '0.8rem', color: '#c8a84b' };
-const chipNum = { fontSize: '0.95rem', fontWeight: 800, color: '#e4d4c8', fontFamily: 'monospace' };
-const chipSub = { fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(228,212,200,0.5)', textTransform: 'uppercase' };
+const chipIcon = { fontSize: '0.8rem', color: '#9C1FE8' };
+const chipNum = { fontSize: '0.95rem', fontWeight: 800, color: '#c8d0ff', fontFamily: 'monospace' };
+const chipSub = { fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(200,210,255,0.5)', textTransform: 'uppercase' };

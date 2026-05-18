@@ -49,7 +49,7 @@ function CardMesh({ textureUrl, color }) {
 export default function FloatingCard({
   position = { top: '30%', right: '2rem' },
   size = 300,
-  color = '#d0b49f',
+  color = '#505BE6',
   textureUrl = null,
 }) {
   const containerStyle = {

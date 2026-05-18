@@ -5,7 +5,7 @@ export default function RopeWaveLine({
   y = '50%',
   width = 500,
   height = 80,
-  color = '#e4d4c8',
+  color = '#c8d0ff',
   waveAmplitude = 10,
   waveFrequency = 0.02,
   speed = 0.04,

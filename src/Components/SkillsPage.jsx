@@ -45,9 +45,9 @@ const DETAILS_FALLBACK = {
 const SKILLS_FALLBACK = [];
 
 const LEVEL_COLOR = {
-  Advanced: '#c8a84b',
-  Intermediate: '#a3785b',
-  Basic: '#917463ff',
+  Advanced: '#9C1FE8',
+  Intermediate: '#505BE6',
+  Basic: '#4d8ccc',
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ function SkillCard({ skill, index }) {
       style={{
         ...skillCardStyle,
         border: hovered
-          ? '1px solid rgba(228,212,200,0.35)'
+          ? '1px solid rgba(200,210,255,0.35)'
           : '1px solid rgba(255,255,255,0.08)',
         background: hovered
           ? 'rgba(255,255,255,0.12)'
@@ -123,7 +123,7 @@ function BackgroundGrid() {
   return (
     <div style={{
       position: 'absolute', inset: 0,
-      backgroundImage: 'radial-gradient(rgba(228,212,200,0.07) 1px, transparent 1px)',
+      backgroundImage: 'radial-gradient(rgba(200,210,255,0.07) 1px, transparent 1px)',
       backgroundSize: '28px 28px',
       pointerEvents: 'none', zIndex: 0,
     }} />
@@ -143,10 +143,10 @@ function Scanlines() {
 function HUDCorners() {
   return (
     <>
-      <div style={{ ...hudCornerBase, top: '1rem', left: '1rem', borderTop: '2px solid rgba(200,168,75,0.5)', borderLeft: '2px solid rgba(200,168,75,0.5)' }} />
-      <div style={{ ...hudCornerBase, top: '1rem', right: '1rem', borderTop: '2px solid rgba(200,168,75,0.5)', borderRight: '2px solid rgba(200,168,75,0.5)' }} />
-      <div style={{ ...hudCornerBase, bottom: '1rem', left: '1rem', borderBottom: '2px solid rgba(200,168,75,0.5)', borderLeft: '2px solid rgba(200,168,75,0.5)' }} />
-      <div style={{ ...hudCornerBase, bottom: '1rem', right: '1rem', borderBottom: '2px solid rgba(200,168,75,0.5)', borderRight: '2px solid rgba(200,168,75,0.5)' }} />
+      <div style={{ ...hudCornerBase, top: '1rem', left: '1rem', borderTop: '2px solid rgba(156,31,232,0.5)', borderLeft: '2px solid rgba(156,31,232,0.5)' }} />
+      <div style={{ ...hudCornerBase, top: '1rem', right: '1rem', borderTop: '2px solid rgba(156,31,232,0.5)', borderRight: '2px solid rgba(156,31,232,0.5)' }} />
+      <div style={{ ...hudCornerBase, bottom: '1rem', left: '1rem', borderBottom: '2px solid rgba(156,31,232,0.5)', borderLeft: '2px solid rgba(156,31,232,0.5)' }} />
+      <div style={{ ...hudCornerBase, bottom: '1rem', right: '1rem', borderBottom: '2px solid rgba(156,31,232,0.5)', borderRight: '2px solid rgba(156,31,232,0.5)' }} />
     </>
   );
 }
@@ -219,8 +219,8 @@ export default function SkillScene() {
 
   const leftColStyle = {
     ...leftColumn,
-    borderRight: isNarrow ? 'none' : '1px solid rgba(208,180,159,0.4)',
-    borderBottom: isNarrow ? '1px solid rgba(208,180,159,0.3)' : 'none',
+    borderRight: isNarrow ? 'none' : '1px solid rgba(80,91,230,0.4)',
+    borderBottom: isNarrow ? '1px solid rgba(80,91,230,0.3)' : 'none',
     paddingRight: isNarrow ? 0 : '1.5rem',
     paddingBottom: isNarrow ? '1rem' : 0,
     flex: isNarrow ? 'none' : 1,
@@ -261,10 +261,10 @@ export default function SkillScene() {
 
       {/* Decorative spheres — hidden on mobile to avoid overlap */}
       {!isMobile && (
-        <FloatingCircle position={{ top: '30%', right: '3rem' }} size={400} color="#e4d4c8" />
+        <FloatingCircle position={{ top: '30%', right: '3rem' }} size={400} color="#c8d0ff" />
       )}
       {!isNarrow && (
-        <FloatingCircle position={{ bottom: '10%', left: '2rem' }} size={150} color="#D0B49F" />
+        <FloatingCircle position={{ bottom: '10%', left: '2rem' }} size={150} color="#505BE6" />
       )}
 
       <div style={twoColStyle}>
@@ -286,9 +286,9 @@ export default function SkillScene() {
                 onClick={() => setActiveSection(section)}
                 style={{
                   ...buttonStyle,
-                  color: activeSection === section ? '#000' : '#e4d4c8',
-                  borderColor: activeSection === section ? 'transparent' : '#d0b49f',
-                  borderLeftColor: activeSection === section ? '#e4d4c8' : '#d0b49f',
+                  color: activeSection === section ? '#fff' : '#c8d0ff',
+                  borderColor: activeSection === section ? 'transparent' : '#505BE6',
+                  borderLeftColor: activeSection === section ? '#9C1FE8' : '#505BE6',
                   borderLeftWidth: activeSection === section ? '3px' : '1px',
                   fontSize: isNarrow ? '0.82rem' : '0.95rem',
                   padding: isNarrow ? '0.45rem 0.8rem' : '0.65rem 1.2rem',
@@ -360,7 +360,7 @@ const skillsPageStyle = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  background: '#523a28',
+  background: '#121D30',
   color: '#fff',
   position: 'relative',
   overflow: 'hidden',
@@ -377,7 +377,7 @@ const twoColumnContainer = {
 
 const leftColumn = {
   flex: 1,
-  borderRight: '1px solid rgba(208,180,159,0.4)',
+  borderRight: '1px solid rgba(80,91,230,0.4)',
   paddingRight: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
@@ -391,7 +391,7 @@ const nameTagStyle = {
   fontSize: '0.8rem',
   letterSpacing: '0.15em',
   textTransform: 'uppercase',
-  color: '#a3785b',
+  color: '#9C1FE8',
   margin: '0 0 0.3rem',
 };
 
@@ -404,7 +404,7 @@ const whyHireMeTitle = {
 const titleDivider = {
   width: '40px',
   height: '3px',
-  background: 'linear-gradient(90deg, #e4d4c8, #a3785b)',
+  background: 'linear-gradient(90deg, #9C1FE8, #505BE6)',
   borderRadius: '2px',
   marginBottom: '0.6rem',
 };
@@ -425,7 +425,7 @@ const buttonStyle = {
   position: 'relative',
   padding: '0.65rem 1.2rem',
   borderRadius: '6px',
-  border: '1px solid #d0b49f',
+  border: '1px solid #505BE6',
   backgroundColor: 'transparent',
   fontSize: '0.95rem',
   cursor: 'pointer',
@@ -437,7 +437,7 @@ const buttonStyle = {
 const pillStyle = {
   position: 'absolute',
   inset: 0,
-  background: '#e4d4c8',
+  background: '#505BE6',
   borderRadius: '5px',
   zIndex: 0,
 };
@@ -454,7 +454,7 @@ const rightColumn = {
 
 const activeTitle = {
   fontSize: '1.6rem',
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   marginBottom: '0.4rem',
   marginTop: 0,
 };
@@ -521,8 +521,8 @@ const tooltipStyle = {
   left: '50%',
   transform: 'translateX(-50%)',
   background: 'rgba(20,12,8,0.92)',
-  border: '1px solid rgba(228,212,200,0.2)',
-  color: '#e4d4c8',
+  border: '1px solid rgba(200,210,255,0.2)',
+  color: '#c8d0ff',
   fontSize: '0.7rem',
   padding: '4px 8px',
   borderRadius: '5px',
@@ -555,7 +555,7 @@ const detailCard = {
 };
 
 const detailBullet = {
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   fontSize: '0.7rem',
   flexShrink: 0,
 };
@@ -578,8 +578,8 @@ const achievementToastStyle = {
   alignItems: 'center',
   gap: '0.75rem',
   background: 'rgba(20,12,8,0.92)',
-  border: '1px solid rgba(200,168,75,0.4)',
-  borderLeft: '3px solid #c8a84b',
+  border: '1px solid rgba(156,31,232,0.4)',
+  borderLeft: '3px solid #9C1FE8',
   borderRadius: '8px',
   padding: '0.7rem 1rem',
   zIndex: 100,
@@ -594,7 +594,7 @@ const achievementTitleStyle = {
   margin: 0,
   fontSize: '0.6rem',
   letterSpacing: '0.15em',
-  color: '#c8a84b',
+  color: '#9C1FE8',
   textTransform: 'uppercase',
 };
 
@@ -602,6 +602,6 @@ const achievementNameStyle = {
   margin: 0,
   fontSize: '0.85rem',
   fontWeight: 700,
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   letterSpacing: '0.05em',
 };

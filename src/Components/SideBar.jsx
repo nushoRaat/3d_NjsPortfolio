@@ -26,10 +26,10 @@ function HUDCorner({ pos }) {
   return (
     <div style={{
       ...style,
-      borderTop:    isTop    ? '2px solid rgba(200,168,75,0.7)' : 'none',
-      borderBottom: !isTop   ? '2px solid rgba(200,168,75,0.7)' : 'none',
-      borderLeft:   isLeft   ? '2px solid rgba(200,168,75,0.7)' : 'none',
-      borderRight:  !isLeft  ? '2px solid rgba(200,168,75,0.7)' : 'none',
+      borderTop:    isTop    ? '2px solid rgba(156,31,232,0.7)' : 'none',
+      borderBottom: !isTop   ? '2px solid rgba(156,31,232,0.7)' : 'none',
+      borderLeft:   isLeft   ? '2px solid rgba(156,31,232,0.7)' : 'none',
+      borderRight:  !isLeft  ? '2px solid rgba(156,31,232,0.7)' : 'none',
     }} />
   );
 }
@@ -47,7 +47,7 @@ function DotGrid() {
   return (
     <div style={{
       position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
-      backgroundImage: 'radial-gradient(rgba(200,168,75,0.06) 1px, transparent 1px)',
+      backgroundImage: 'radial-gradient(rgba(156,31,232,0.06) 1px, transparent 1px)',
       backgroundSize: '22px 22px',
     }} />
   );
@@ -103,8 +103,8 @@ function NavLink({ item, index, close }) {
       href={href}
       style={{
         ...navLinkStyle,
-        background: hovered ? 'rgba(200,168,75,0.08)' : 'transparent',
-        borderLeft: hovered ? '3px solid #c8a84b' : '3px solid transparent',
+        background: hovered ? 'rgba(156,31,232,0.08)' : 'transparent',
+        borderLeft: hovered ? '3px solid #9C1FE8' : '3px solid transparent',
       }}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
@@ -116,7 +116,7 @@ function NavLink({ item, index, close }) {
       onClick={close}
     >
       {/* Number prefix */}
-      <span style={{ ...numStyle, color: hovered ? '#c8a84b' : 'rgba(200,168,75,0.35)' }}>
+      <span style={{ ...numStyle, color: hovered ? '#9C1FE8' : 'rgba(156,31,232,0.35)' }}>
         {num}
       </span>
 
@@ -124,7 +124,7 @@ function NavLink({ item, index, close }) {
       <Icon
         size={15}
         style={{
-          color: hovered ? '#c8a84b' : 'rgba(228,212,200,0.5)',
+          color: hovered ? '#9C1FE8' : 'rgba(200,210,255,0.5)',
           transition: 'color 0.2s',
           flexShrink: 0,
         }}
@@ -133,15 +133,15 @@ function NavLink({ item, index, close }) {
       {/* Label */}
       <span style={{
         ...linkLabelStyle,
-        color: hovered ? '#ffffff' : '#e4d4c8',
-        textShadow: hovered ? '0 0 8px rgba(228,212,200,0.6)' : 'none',
+        color: hovered ? '#ffffff' : '#c8d0ff',
+        textShadow: hovered ? '0 0 8px rgba(200,210,255,0.6)' : 'none',
       }}>
         {label}
       </span>
 
       {/* Arrow */}
       <motion.span
-        style={{ marginLeft: 'auto', color: hovered ? '#c8a84b' : 'transparent', flexShrink: 0 }}
+        style={{ marginLeft: 'auto', color: hovered ? '#9C1FE8' : 'transparent', flexShrink: 0 }}
         animate={{ x: hovered ? 3 : 0 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       >
@@ -153,7 +153,7 @@ function NavLink({ item, index, close }) {
         position: 'absolute', bottom: 0, left: '2.2rem', right: '0.5rem',
         height: '1px',
         background: hovered
-          ? 'linear-gradient(90deg, rgba(200,168,75,0.5), transparent)'
+          ? 'linear-gradient(90deg, rgba(156,31,232,0.5), transparent)'
           : 'rgba(255,255,255,0.05)',
       }} />
     </motion.a>
@@ -195,7 +195,7 @@ function MobileDrawer({ onClose }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15 }}
         >
-          ◈ NJ.PORTFOLIO <span style={{ color: 'rgba(200,168,75,0.4)' }}>// SYS_NAV</span>
+          ◈ NJ.PORTFOLIO <span style={{ color: 'rgba(156,31,232,0.4)' }}>// SYS_NAV</span>
         </motion.p>
 
         {/* Player card */}
@@ -255,15 +255,15 @@ export default function Sidebar() {
           whileTap={{ scale: 0.92 }}
           animate={{
             boxShadow: menuOpen
-              ? '0 0 14px rgba(200,168,75,0.6), inset 0 0 6px rgba(200,168,75,0.15)'
-              : ['0 0 4px rgba(200,168,75,0.3)', '0 0 10px rgba(200,168,75,0.5)', '0 0 4px rgba(200,168,75,0.3)'],
+              ? '0 0 14px rgba(156,31,232,0.6), inset 0 0 6px rgba(156,31,232,0.15)'
+              : ['0 0 4px rgba(156,31,232,0.3)', '0 0 10px rgba(156,31,232,0.5)', '0 0 4px rgba(156,31,232,0.3)'],
           }}
           transition={{ duration: 1.8, repeat: menuOpen ? 0 : Infinity, ease: 'easeInOut' }}
         >
           <AnimatePresence mode="wait">
             <motion.span
               key={menuOpen ? 'close' : 'open'}
-              style={{ fontSize: '1.2rem', lineHeight: 1, color: '#c8a84b' }}
+              style={{ fontSize: '1.2rem', lineHeight: 1, color: '#9C1FE8' }}
               initial={{ opacity: 0, rotate: -30 }}
               animate={{ opacity: 1, rotate: 0 }}
               exit={{ opacity: 0, rotate: 30 }}
@@ -344,9 +344,9 @@ const hudButtonStyle = {
   top: '1rem',
   left: '1rem',
   zIndex: 300,
-  background: 'rgba(14, 9, 6, 0.92)',
-  border: '1px solid rgba(200, 168, 75, 0.5)',
-  color: '#c8a84b',
+  background: 'rgba(10, 12, 24, 0.92)',
+  border: '1px solid rgba(156, 31, 232,0.5)',
+  color: '#9C1FE8',
   width: '52px',
   height: '52px',
   borderRadius: '6px',
@@ -364,7 +364,7 @@ const hudButtonStyle = {
 const menuLabelStyle = {
   fontSize: '0.44rem',
   letterSpacing: '0.18em',
-  color: 'rgba(200,168,75,0.7)',
+  color: 'rgba(156,31,232,0.7)',
   textTransform: 'uppercase',
   lineHeight: 1,
 };
@@ -381,11 +381,11 @@ const overlayStyle = {
 
 const drawerStyle = {
   position: 'relative',
-  background: 'linear-gradient(160deg, #0e0906 0%, #1a100a 60%, #0e0906 100%)',
+  background: 'linear-gradient(160deg, #0a0d1a 0%, #111828 60%, #0a0d1a 100%)',
   width: '280px',
   maxWidth: '85vw',
   height: '100%',
-  borderRight: '1px solid rgba(200,168,75,0.2)',
+  borderRight: '1px solid rgba(156,31,232,0.2)',
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
@@ -405,14 +405,14 @@ const sysHeaderStyle = {
   margin: 0,
   fontSize: '0.62rem',
   letterSpacing: '0.12em',
-  color: 'rgba(200,168,75,0.55)',
+  color: 'rgba(156,31,232,0.55)',
   textTransform: 'uppercase',
   fontFamily: 'monospace',
 };
 
 const playerCardStyle = {
-  background: 'rgba(200,168,75,0.07)',
-  border: '1px solid rgba(200,168,75,0.2)',
+  background: 'rgba(156,31,232,0.07)',
+  border: '1px solid rgba(156,31,232,0.2)',
   borderRadius: '8px',
   padding: '0.75rem',
   display: 'flex',
@@ -427,7 +427,7 @@ const avatarStyle = {
   backgroundImage: 'url("public/images/logo2.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  border: '1px solid rgba(200,168,75,0.3)',
+  border: '1px solid rgba(156,31,232,0.3)',
   marginBottom: '0.2rem',
 };
 
@@ -435,7 +435,7 @@ const playerLabelStyle = {
   margin: 0,
   fontSize: '0.58rem',
   letterSpacing: '0.14em',
-  color: 'rgba(228,212,200,0.45)',
+  color: 'rgba(200,210,255,0.45)',
   textTransform: 'uppercase',
 };
 
@@ -443,14 +443,14 @@ const playerNameStyle = {
   margin: 0,
   fontSize: '0.88rem',
   fontWeight: 700,
-  color: '#e4d4c8',
+  color: '#c8d0ff',
   letterSpacing: '0.03em',
 };
 
 const playerClassStyle = {
   margin: 0,
   fontSize: '0.68rem',
-  color: '#a3785b',
+  color: '#224D75',
   letterSpacing: '0.05em',
 };
 
@@ -464,7 +464,7 @@ const xpRowStyle = {
 const xpLabelStyle = {
   fontSize: '0.58rem',
   letterSpacing: '0.1em',
-  color: 'rgba(228,212,200,0.4)',
+  color: 'rgba(200,210,255,0.4)',
   textTransform: 'uppercase',
   flexShrink: 0,
 };
@@ -479,15 +479,15 @@ const xpTrackStyle = {
 
 const xpFillStyle = {
   height: '100%',
-  background: 'linear-gradient(90deg, #a3785b, #c8a84b)',
+  background: 'linear-gradient(90deg, #224D75, #9C1FE8)',
   borderRadius: '2px',
-  boxShadow: '0 0 6px rgba(200,168,75,0.5)',
+  boxShadow: '0 0 6px rgba(156,31,232,0.5)',
 };
 
 const xpLvlStyle = {
   fontSize: '0.62rem',
   fontWeight: 700,
-  color: '#c8a84b',
+  color: '#9C1FE8',
   letterSpacing: '0.06em',
   flexShrink: 0,
 };
@@ -502,11 +502,11 @@ const dividerStyle = {
 const dividerLabel = {
   fontSize: '0.58rem',
   letterSpacing: '0.2em',
-  color: 'rgba(200,168,75,0.5)',
+  color: 'rgba(156,31,232,0.5)',
   textTransform: 'uppercase',
   whiteSpace: 'nowrap',
   padding: '0 0.3rem',
-  background: 'linear-gradient(90deg, rgba(200,168,75,0.15), transparent)',
+  background: 'linear-gradient(90deg, rgba(156,31,232,0.15), transparent)',
   borderRadius: '2px',
 };
 
@@ -547,7 +547,7 @@ const footerStyle = {
 
 const footerDivider = {
   height: '1px',
-  background: 'linear-gradient(90deg, rgba(200,168,75,0.3), transparent)',
+  background: 'linear-gradient(90deg, rgba(156,31,232,0.3), transparent)',
   marginBottom: '0.6rem',
 };
 
@@ -555,7 +555,7 @@ const footerTextStyle = {
   fontSize: '0.6rem',
   fontFamily: 'monospace',
   letterSpacing: '0.1em',
-  color: 'rgba(228,212,200,0.3)',
+  color: 'rgba(200,210,255,0.3)',
   display: 'flex',
   alignItems: 'center',
   gap: '4px',

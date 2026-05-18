@@ -35,7 +35,7 @@ function CircleMesh({ color }) {
 export default function FloatingCircle({
   position = { top: '50%', right: '2rem' },
   size = 200,
-  color = '#d0b49f',
+  color = '#505BE6',
 }) {
   const containerStyle = {
     position: 'fixed',
