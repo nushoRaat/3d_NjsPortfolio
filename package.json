@@ -10,8 +10,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run dev:all",
-    "deploy": "gh-pages -d dist"
+    "render-build": "npm install --prefix backend && vite build",
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
