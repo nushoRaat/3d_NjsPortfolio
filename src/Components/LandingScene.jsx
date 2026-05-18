@@ -388,12 +388,12 @@ const headerRow = { display: 'flex', alignItems: 'center', justifyContent: 'spac
 
 const sysLabel = {
   fontSize: '0.6rem', letterSpacing: '0.16em',
-  color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: 'monospace',
+  color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: "'Fira Mono', monospace",
 };
 
 const activeBadge = {
   display: 'flex', alignItems: 'center', gap: '4px',
-  fontSize: '0.55rem', letterSpacing: '0.1em', fontFamily: 'monospace',
+  fontSize: '0.55rem', letterSpacing: '0.1em', fontFamily: "'Fira Mono', monospace",
   color: '#4caf50', background: 'rgba(76,175,80,0.1)',
   border: '1px solid rgba(76,175,80,0.3)', borderRadius: '3px', padding: '1px 6px',
 };
@@ -437,7 +437,7 @@ const realName = {
 const handleStyle = {
   margin: 0,
   fontSize: '0.82rem', fontWeight: 600, color: '#9C1FE8',
-  letterSpacing: '0.02em', fontFamily: 'monospace',
+  letterSpacing: '0.02em', fontFamily: "'Fira Mono', monospace",
   minHeight: '1.1em',
 };
 
@@ -460,8 +460,8 @@ const lvlBadge = {
   boxShadow: '0 0 14px rgba(156,31,232,0.2)',
 };
 
-const lvlNum = { fontSize: '1.15rem', fontWeight: 900, color: '#9C1FE8', lineHeight: 1, fontFamily: 'monospace' };
-const lvlLbl = { fontSize: '0.42rem', letterSpacing: '0.16em', color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: 'monospace' };
+const lvlNum = { fontSize: '1.15rem', fontWeight: 900, color: '#9C1FE8', lineHeight: 1, fontFamily: "'Fira Mono', monospace" };
+const lvlLbl = { fontSize: '0.42rem', letterSpacing: '0.16em', color: 'rgba(156,31,232,0.55)', textTransform: 'uppercase', fontFamily: "'Fira Mono', monospace" };
 
 // Bio
 const bioSection = {
@@ -482,7 +482,7 @@ const bioRule = {
 
 const bioLabel = {
   fontSize: '0.52rem', letterSpacing: '0.18em',
-  color: 'rgba(156,31,232,0.5)', textTransform: 'uppercase', fontFamily: 'monospace',
+  color: 'rgba(156,31,232,0.5)', textTransform: 'uppercase', fontFamily: "'Fira Mono', monospace",
   flexShrink: 0,
 };
 
@@ -520,7 +520,7 @@ const xpTip = {
 
 const xpPct = {
   fontSize: '0.62rem', fontWeight: 700, color: '#9C1FE8',
-  letterSpacing: '0.05em', flexShrink: 0, fontFamily: 'monospace',
+  letterSpacing: '0.05em', flexShrink: 0, fontFamily: "'Fira Mono', monospace",
 };
 
 // Stat chip
@@ -533,5 +533,5 @@ const statChip = {
 };
 
 const chipIcon = { fontSize: '0.8rem', color: '#9C1FE8' };
-const chipNum = { fontSize: '0.95rem', fontWeight: 800, color: '#c8d0ff', fontFamily: 'monospace' };
+const chipNum = { fontSize: '0.95rem', fontWeight: 800, color: '#c8d0ff', fontFamily: "'Fira Mono', monospace" };
 const chipSub = { fontSize: '0.6rem', letterSpacing: '0.1em', color: 'rgba(200,210,255,0.5)', textTransform: 'uppercase' };

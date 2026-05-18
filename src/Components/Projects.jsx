@@ -191,7 +191,7 @@ const cardFrontFace = {
   position: 'absolute',
   top: 0,
   left: 0,
-  fontFamily: '"Sensation", serif',
+  fontFamily: "'Fira Mono', serif",
   color: '#1a1a1a',
   boxSizing: 'border-box',
   padding: '6px',
@@ -292,7 +292,7 @@ const flipCueIcon = {
 };
 
 const flipCueText = {
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.72rem',
   letterSpacing: '0.12em',
   textTransform: 'uppercase',

@@ -407,7 +407,7 @@ const sysHeaderStyle = {
   letterSpacing: '0.12em',
   color: 'rgba(156,31,232,0.55)',
   textTransform: 'uppercase',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
 };
 
 const playerCardStyle = {
@@ -524,7 +524,7 @@ const navLinkStyle = {
 
 const numStyle = {
   fontSize: '0.6rem',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   letterSpacing: '0.05em',
   transition: 'color 0.2s',
   flexShrink: 0,
@@ -536,7 +536,7 @@ const linkLabelStyle = {
   fontWeight: 600,
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
-  fontFamily: 'Sensation, sans-serif',
+  fontFamily: "'Fira Mono', sans-serif",
   transition: 'color 0.2s ease, text-shadow 0.2s ease',
   flex: 1,
 };
@@ -553,7 +553,7 @@ const footerDivider = {
 
 const footerTextStyle = {
   fontSize: '0.6rem',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   letterSpacing: '0.1em',
   color: 'rgba(200,210,255,0.3)',
   display: 'flex',
@@ -608,5 +608,5 @@ const linkStyle = {
   transform: 'rotate(180deg)',
   transition: 'all 0.3s ease',
   cursor: 'pointer',
-  fontFamily: 'Sensation, sans-serif',
+  fontFamily: "'Fira Mono', sans-serif",
 };

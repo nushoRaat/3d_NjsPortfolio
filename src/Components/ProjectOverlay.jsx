@@ -222,7 +222,7 @@ const topBar = {
 };
 
 const systemTag = {
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.68rem',
   letterSpacing: '0.12em',
   color: '#224D75',
@@ -232,7 +232,7 @@ const escButton = {
   background: 'transparent',
   border: '1px solid #224D75',
   color: '#224D75',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.68rem',
   letterSpacing: '0.08em',
   padding: '4px 12px',
@@ -267,7 +267,7 @@ const langBadge = {
   background: 'rgba(80,91,230,0.1)',
   border: '1px solid rgba(80,91,230,0.35)',
   color: '#505BE6',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.7rem',
   letterSpacing: '0.1em',
   textTransform: 'uppercase',
@@ -290,7 +290,7 @@ const roleRow = {
 };
 
 const roleLabel = {
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.62rem',
   letterSpacing: '0.14em',
   color: '#224D75',
@@ -301,7 +301,7 @@ const roleLabel = {
 };
 
 const roleValue = {
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.82rem',
   color: '#c8d0ff',
   letterSpacing: '0.04em',
@@ -327,7 +327,7 @@ const videoCaption = {
   padding: '5px 12px',
   background: '#080c18',
   borderBottom: '1px solid rgba(34,77,117,0.3)',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.62rem',
   letterSpacing: '0.18em',
   color: '#224D75',
@@ -389,7 +389,7 @@ const playBtn = {
   background: 'transparent',
   border: '1px solid #505BE6',
   color: '#505BE6',
-  fontFamily: 'monospace',
+  fontFamily: "'Fira Mono', monospace",
   fontSize: '0.82rem',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',

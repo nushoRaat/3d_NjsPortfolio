@@ -1,5 +1,6 @@
 {
   "name": "3d-njsportfolio",
+  "homepage": "https://nushoRaat.github.io/3d_NjsPortfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +9,9 @@
     "dev:all": "concurrently -n \"backend,frontend\" -c \"yellow,cyan\" \"npm run dev --prefix backend\" \"vite\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run dev:all",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -16,6 +19,7 @@
     "@react-three/fiber": "^9.1.2",
     "@react-three/postprocessing": "^3.0.4",
     "framer-motion": "^12.9.2",
+    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
