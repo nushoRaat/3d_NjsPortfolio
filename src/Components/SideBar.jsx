@@ -424,7 +424,7 @@ const avatarStyle = {
   width: '52px',
   height: '52px',
   borderRadius: '6px',
-  backgroundImage: 'url("public/images/logo2.png")',
+  backgroundImage: `url("${import.meta.env.BASE_URL}images/logo2.png")`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   border: '1px solid rgba(156,31,232,0.3)',
@@ -587,7 +587,7 @@ const logoSpaceStyle = {
 const logoPlaceholderStyle = {
   width: '150px',
   height: '150px',
-  backgroundImage: 'url("public/images/logo2.png")',
+  backgroundImage: `url("${import.meta.env.BASE_URL}images/logo2.png")`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   borderRadius: '10px',

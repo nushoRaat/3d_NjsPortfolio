@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, Component } from 'react';
 import Sidebar from './Components/SideBar.jsx';
 import LandingScene from './Components/LandingScene.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
@@ -9,14 +9,31 @@ import AdminApp from './admin/AdminApp.jsx';
 import { motion } from 'framer-motion';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+class ErrorBoundary extends Component {
+  state = { crashed: false, message: '' };
+  static getDerivedStateFromError(error) { return { crashed: true, message: error?.message || String(error) }; }
+  render() {
+    if (this.state.crashed) return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', background:'#121D30', color:'#c8d0ff', fontFamily:"'Fira Mono', monospace", flexDirection:'column', gap:'1rem', padding:'2rem' }}>
+        <span style={{ fontSize:'2rem' }}>⚠</span>
+        <p style={{ margin:0 }}>Something went wrong. Please refresh.</p>
+        <p style={{ margin:0, fontSize:'0.7rem', color:'rgba(200,210,255,0.4)', maxWidth:'600px', textAlign:'center' }}>{this.state.message}</p>
+      </div>
+    );
+    return this.props.children;
+  }
+}
+
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/admin/*" element={<AdminApp />} />
-        <Route path="/*" element={<Portfolio />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router basename={import.meta.env.BASE_URL}>
+        <Routes>
+          <Route path="/admin/*" element={<AdminApp />} />
+          <Route path="/*" element={<Portfolio />} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

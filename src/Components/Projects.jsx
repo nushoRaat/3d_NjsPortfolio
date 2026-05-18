@@ -24,8 +24,8 @@ export default function ProjectsShowcase() {
   }, []);
 
   useEffect(() => {
-    swooshRef.current = new Audio('/sounds/hover.mp3');
-    clickRef.current = new Audio('/sounds/click.mp3');
+    swooshRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/hover.mp3`);
+    clickRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/click.mp3`);
   }, []);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function ProjectsShowcase() {
   const tableBorder = isMobile ? '8px' : isTablet ? '12px' : '20px';
 
   const tableStyle = {
-    backgroundImage: 'url("/images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)',
+    backgroundImage: `url("${import.meta.env.BASE_URL}images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)`,
     backgroundBlendMode: 'overlay',
     height: '100vh',
     width: '100%',
@@ -81,7 +81,7 @@ export default function ProjectsShowcase() {
         <FloatingRectangle
           position={{ top: '25%', left: '12rem' }}
           size={500}
-          textureUrl="/images/card2.jpg"
+          textureUrl={`${import.meta.env.BASE_URL}images/card2.jpg`}
           spin={true}
         />
       )}
@@ -169,7 +169,7 @@ const flipCardStyle = {
 const cardBackFace = {
   width: '100%',
   height: '100%',
-  backgroundImage: 'url("/images/card2.jpg")',
+  backgroundImage: `url("${import.meta.env.BASE_URL}images/card2.jpg")`,
   boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.5)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',

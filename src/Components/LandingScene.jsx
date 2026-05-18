@@ -1,4 +1,4 @@
-import { Suspense, useRef, useState, useEffect } from 'react';
+import { Suspense, useRef, useState, useEffect, Component } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import {
   OrbitControls,
@@ -276,11 +276,20 @@ function CameraIntro({ isMobile }) {
   return null;
 }
 
+class CanvasErrorBoundary extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() {
+    if (this.state.failed) return null;
+    return this.props.children;
+  }
+}
+
 function GamingConsole(props) {
-  const { scene } = useGLTF('/models/me.glb');
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}models/me.glb`);
   return <primitive object={scene.clone()} scale={2} {...props} />;
 }
-useGLTF.preload('/models/me.glb');
+useGLTF.preload(`${import.meta.env.BASE_URL}models/me.glb`);
 
 function LoadingFallback() {
   return <Html center><div style={{ color: '#fff', fontSize: '1.2rem' }}>Loading...</div></Html>;
@@ -304,36 +313,38 @@ export default function LandingScene() {
     <div style={pageStyle}>
       <PlayerHUDCard bio={bio} isMobile={isMobile} isTablet={isTablet} />
 
-      <Canvas camera={{ position: [0, 4, 12], fov: 50 }}>
-        <Suspense fallback={<LoadingFallback />}>
-          <CameraIntro isMobile={isNarrow} />
+      <CanvasErrorBoundary>
+        <Canvas camera={{ position: [0, 4, 12], fov: 50 }}>
+          <Suspense fallback={<LoadingFallback />}>
+            <CameraIntro isMobile={isNarrow} />
 
-          <Environment preset="sunset" environmentIntensity={0.4} />
-          <directionalLight position={[2, 5, 3]} intensity={1.2} />
-          <pointLight position={[-3, 2, -2]} intensity={2} color="#e8965a" />
-          <pointLight position={[4, 1, -3]} intensity={1.5} color="#5a8ce8" />
-          <ambientLight intensity={0.3} />
+            <Environment preset="sunset" environmentIntensity={0.4} />
+            <directionalLight position={[2, 5, 3]} intensity={1.2} />
+            <pointLight position={[-3, 2, -2]} intensity={2} color="#e8965a" />
+            <pointLight position={[4, 1, -3]} intensity={1.5} color="#5a8ce8" />
+            <ambientLight intensity={0.3} />
 
-          <Sparkles count={isNarrow ? 40 : 80} scale={12} size={2}
-            speed={0.3} color="#c8d0ff" opacity={0.4} />
+            <Sparkles count={isNarrow ? 40 : 80} scale={12} size={2}
+              speed={0.3} color="#c8d0ff" opacity={0.4} />
 
-          <Float speed={2} rotationIntensity={0.8} floatIntensity={1.5}>
-            <group position={modelPos}>
-              <GamingConsole />
-            </group>
-          </Float>
+            <Float speed={2} rotationIntensity={0.8} floatIntensity={1.5}>
+              <group position={modelPos}>
+                <GamingConsole />
+              </group>
+            </Float>
 
-          <ContactShadows position={[0, -1.5, 0]} opacity={0.4} scale={10} blur={2.5} />
+            <ContactShadows position={[0, -1.5, 0]} opacity={0.4} scale={10} blur={2.5} />
 
-          <EffectComposer>
-            <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.9} intensity={0.5} />
-            <Vignette eskil={false} offset={0.1} darkness={0.8} />
-          </EffectComposer>
+            <EffectComposer>
+              <Bloom luminanceThreshold={0.6} luminanceSmoothing={0.9} intensity={0.5} />
+              <Vignette eskil={false} offset={0.1} darkness={0.8} />
+            </EffectComposer>
 
-          <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} />
-          <Preload all />
-        </Suspense>
-      </Canvas>
+            <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} />
+            <Preload all />
+          </Suspense>
+        </Canvas>
+      </CanvasErrorBoundary>
     </div>
   );
 }
@@ -421,7 +432,7 @@ const avatarRing = {
 
 const avatarImg = {
   width: 64, height: 64, borderRadius: '9px',
-  backgroundImage: 'url("public/images/logo2.png")',
+  backgroundImage: `url("${import.meta.env.BASE_URL}images/logo2.png")`,
   backgroundSize: 'cover', backgroundPosition: 'center',
   border: '1px solid rgba(156,31,232,0.35)',
 };
