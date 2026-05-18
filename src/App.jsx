@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Sidebar from './Components/SideBar.jsx';
 import LandingScene from './Components/LandingScene.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
@@ -21,20 +21,22 @@ export default function App() {
 }
 
 function Portfolio() {
+  const scrollRef = useRef(null);
+
   return (
     <div style={appStyle}>
       <Sidebar />
-      <div style={contentStyle}>
-        <Section id="home">
+      <div ref={scrollRef} style={contentStyle}>
+        <Section id="home" scrollRef={scrollRef}>
           <LandingScene />
         </Section>
-        <Section id="projects">
+        <Section id="projects" scrollRef={scrollRef}>
           <ProjectsShowcase />
         </Section>
-        <Section id="skills">
+        <Section id="skills" scrollRef={scrollRef}>
           <SkillScene />
         </Section>
-        <Section id="contact">
+        <Section id="contact" scrollRef={scrollRef}>
           <AboutScene />
         </Section>
       </div>
@@ -42,15 +44,15 @@ function Portfolio() {
   );
 }
 
-function Section({ id, children }) {
+function Section({ id, scrollRef, children }) {
   return (
     <motion.section
       id={id}
       style={sectionStyle}
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.98 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, amount: 0.5 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ root: scrollRef, once: false, amount: 0.3 }}
     >
       {children}
     </motion.section>
