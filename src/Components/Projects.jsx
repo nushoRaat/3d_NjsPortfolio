@@ -6,8 +6,33 @@ import FloatingRectangle from './FloatingRectangle';
 import { fetchProjects } from '../api/portfolio';
 import { useResponsive } from '../hooks/useResponsive';
 
+import TL_large from '../assets/images/TL_large.png';
+import TL_1 from '../assets/images/TL_1.png';
+import TL_2 from '../assets/images/TL_2.png';
+import CT_large from '../assets/images/CT_large.webp';
+import CT_1 from '../assets/images/CT_1.webp';
+import CT_2 from '../assets/images/CT_2.webp';
+
+import projectlist from './ProjectList';
+
+const imageMap = {
+  'src/assets/images/TL_large.png': TL_large,
+  'src/assets/images/TL_1.png': TL_1,
+  'src/assets/images/TL_2.png': TL_2,
+  'src/assets/images/CT_large.webp': CT_large,
+  'src/assets/images/CT_1.webp': CT_1,
+  'src/assets/images/CT_2.webp': CT_2,
+};
+
+const PROJECTS_FALLBACK = projectlist.map((proj, idx) => ({
+  id: proj.id || String(idx + 1),
+  ...proj,
+  images: proj.images ? proj.images.map(img => imageMap[img] || img) : [],
+  video: proj.video ? (proj.video.startsWith('/') ? `${import.meta.env.BASE_URL}${proj.video.slice(1)}` : proj.video) : undefined,
+}));
+
 export default function ProjectsShowcase() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(PROJECTS_FALLBACK);
   const [selectedProject, setSelectedProject] = useState(null);
   const [hovered, setHovered] = useState(null);
   const { isMobile, isTablet } = useResponsive();

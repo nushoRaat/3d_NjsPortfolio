@@ -17,9 +17,9 @@ const projectlist = [
     role: 'Game Designer, programmer, Level Designer and UI Artist.',
     description: 'On a quest to fight with own grief',
     images: [
-      "src/assets/images/CT_large.png",
-      "src/assets/images/CT_1.png",
-      "src/assets/images/CT_2.png"
+      "src/assets/images/CT_large.webp",
+      "src/assets/images/CT_1.webp",
+      "src/assets/images/CT_2.webp"
     ],
     language: 'Unity / C#',
     link: 'https://nushraat.itch.io/cats-trail',
@@ -39,11 +39,16 @@ const projectlist = [
     video: '/videos/project3.mp4'
   },
   {
-    title: 'Project 4',
-    role: 'Game Designer, programmer, Level Designer and UI Artist.',
-    description: 'AI Adventure Game',
-    language: 'Python / ML',
-    link: 'https://yourlink.com/project4',
+    title: 'Obstruction',
+    role: 'Game Designer, programmer and Level Designer.',
+    description: 'A platformer game where the player is the obstruction for the running agents.',
+    images: [
+      "src/assets/images/OB_3.webp",
+      "src/assets/images/OB_1.webp",
+      "src/assets/images/OB_2.webp"
+    ],
+    language: 'Unity / C#',
+    link: 'https://nushraat.itch.io/obstruction',
     video: '/videos/project4.mp4'
   },
   {

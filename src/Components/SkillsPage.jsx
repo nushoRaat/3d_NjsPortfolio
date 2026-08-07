@@ -42,7 +42,80 @@ const DETAILS_FALLBACK = {
   },
 };
 
-const SKILLS_FALLBACK = [];
+const SKILLS_FALLBACK = [
+  {
+    id: '1',
+    name: 'Unity',
+    level: 'Advanced',
+    pct: 88,
+    iconKey: 'SiUnity',
+    tooltip: '3 years professional experience',
+  },
+  {
+    id: '2',
+    name: 'C#',
+    level: 'Advanced',
+    pct: 85,
+    iconKey: 'SiDotnet',
+    tooltip: 'Primary language in Unity',
+  },
+  {
+    id: '3',
+    name: 'C++',
+    level: 'Intermediate',
+    pct: 82,
+    iconKey: 'SiCplusplus',
+    tooltip: 'Systems & game logic',
+  },
+  {
+    id: '4',
+    name: 'Java',
+    level: 'Intermediate',
+    pct: 90,
+    iconKey: 'FaJava',
+    tooltip: 'OOP, data structures',
+  },
+  {
+    id: '5',
+    name: 'Git',
+    level: 'Advanced',
+    pct: 65,
+    iconKey: 'SiGit',
+    tooltip: 'Version control, branching',
+  },
+  {
+    id: '6',
+    name: 'Unreal Engine',
+    level: 'Basic',
+    pct: 40,
+    iconKey: 'SiUnrealengine',
+    tooltip: 'Blueprints, level design',
+  },
+  {
+    id: '7',
+    name: 'Visual Studio',
+    level: 'Advanced',
+    pct: 92,
+    iconKey: 'FaCode',
+    tooltip: 'Primary IDE',
+  },
+  {
+    id: '8',
+    name: 'Figma',
+    level: 'Intermediate',
+    pct: 55,
+    iconKey: 'SiFigma',
+    tooltip: 'UI/UX prototyping',
+  },
+  {
+    id: '9',
+    name: 'Generative AI Tools',
+    level: 'Advanced',
+    pct: 55,
+    iconKey: 'SiOpenai',
+    tooltip: 'ChatGPT, Claude, Midjourney',
+  },
+];
 
 const LEVEL_COLOR = {
   Advanced: '#9C1FE8',

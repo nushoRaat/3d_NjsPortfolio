@@ -285,10 +285,10 @@ class CanvasErrorBoundary extends Component {
   }
 }
 
-function GamingConsole(props) {
-  const { scene } = useGLTF(`${import.meta.env.BASE_URL}models/me.glb`);
-  return <primitive object={scene.clone()} scale={2} {...props} />;
-}
+// function GamingConsole(props) {
+//   const { scene } = useGLTF(`${import.meta.env.BASE_URL}models/me.glb`);
+//   return <primitive object={scene.clone()} scale={2} {...props} />;
+// }
 useGLTF.preload(`${import.meta.env.BASE_URL}models/me.glb`);
 
 function LoadingFallback() {
@@ -329,7 +329,7 @@ export default function LandingScene() {
 
             <Float speed={2} rotationIntensity={0.8} floatIntensity={1.5}>
               <group position={modelPos}>
-                <GamingConsole />
+                {/* <GamingConsole /> */}
               </group>
             </Float>
 
