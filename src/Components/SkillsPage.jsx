@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import FloatingCircle from './FloatingCircle';
 import { FaCode } from 'react-icons/fa';
 import { ICON_MAP } from '../admin/iconMap';
 import { fetchSkills } from '../api/portfolio';
@@ -331,14 +330,6 @@ export default function SkillScene() {
       <BackgroundGrid />
       <Scanlines />
       <HUDCorners />
-
-      {/* Decorative spheres — hidden on mobile to avoid overlap */}
-      {!isMobile && (
-        <FloatingCircle position={{ top: '30%', right: '3rem' }} size={400} color="#c8d0ff" />
-      )}
-      {!isNarrow && (
-        <FloatingCircle position={{ bottom: '10%', left: '2rem' }} size={150} color="#505BE6" />
-      )}
 
       <div style={twoColStyle}>
         {/* ── Left Column ── */}

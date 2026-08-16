@@ -1,6 +1,6 @@
 import React, { useRef, Component } from 'react';
 import Sidebar from './Components/SideBar.jsx';
-import LandingScene from './Components/LandingScene.jsx';
+import HeroSection from './Components/HeroSection.jsx';
 import ProjectsShowcase from './Components/Projects.jsx';
 import AboutScene from './Components/ContactMe.jsx';
 import SkillScene from './Components/SkillsPage.jsx';
@@ -45,7 +45,7 @@ function Portfolio() {
       <Sidebar />
       <div ref={scrollRef} style={contentStyle}>
         <Section id="home" scrollRef={scrollRef}>
-          <LandingScene />
+          <HeroSection />
         </Section>
         <Section id="projects" scrollRef={scrollRef}>
           <ProjectsShowcase />

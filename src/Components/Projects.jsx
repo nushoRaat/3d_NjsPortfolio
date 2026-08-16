@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ProjectOverlay from './ProjectOverlay';
-import FloatingRectangle from './FloatingRectangle';
 import { fetchProjects } from '../api/portfolio';
 import { useResponsive } from '../hooks/useResponsive';
 
@@ -82,8 +81,7 @@ export default function ProjectsShowcase() {
   const tableBorder = isMobile ? '8px' : isTablet ? '12px' : '20px';
 
   const tableStyle = {
-    backgroundImage: `url("${import.meta.env.BASE_URL}images/pokerBoardTexture3.jpg"), radial-gradient(circle at center, #35654d 60%, #2a4b3d 100%)`,
-    backgroundBlendMode: 'overlay',
+    background: 'radial-gradient(circle at center, #1b2a47 0%, #121D30 100%)',
     height: '100vh',
     width: '100%',
     display: 'flex',
@@ -101,16 +99,6 @@ export default function ProjectsShowcase() {
 
   return (
     <div ref={ref} style={tableStyle}>
-      {/* Floating decorative card — hidden on narrow screens to avoid overlap */}
-      {!isNarrow && (
-        <FloatingRectangle
-          position={{ top: '25%', left: '12rem' }}
-          size={500}
-          textureUrl={`${import.meta.env.BASE_URL}images/card2.jpg`}
-          spin={true}
-        />
-      )}
-
       {/* ── Flip cue ── */}
       <motion.div
         style={flipCueStyle}
