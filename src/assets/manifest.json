@@ -1,0 +1,17 @@
+{
+  "bundles": [
+    {
+      "name": "room-assets",
+      "assets": [
+        {
+          "name": "room-bg",
+          "srcs": "src/assets/images/background.webp"
+        },
+        {
+          "name": "character-sheet",
+          "srcs": "src/assets/images/character-sheet.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,11 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
 :root {
-  font-family: 'Fira Mono', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --bg-deep: #0d1b2a;      /* darkest background */
+  --wall-mid: #16283e;     /* panel background, gradient top */
+  --panel-bottom: #0d1b2a; /* panel background, gradient bottom */
+  --accent-pink: #ff6b9d;  /* player/primary accent */
+  --accent-gold: #ffd23f;  /* highlight, active states, borders */
+  --accent-teal: #4ecdc4;  /* secondary accent, project-mode */
+  --accent-blue: #7fb8d4;  /* tertiary/ambient accent */
+  --parchment: #f7f3e9;    /* body text on dark backgrounds */
+
+  font-family: 'VT323', monospace;
+  line-height: 1.35;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #121D30;
+  color-scheme: dark;
+  color: var(--parchment);
+  background-color: var(--bg-deep);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,73 +24,76 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  border-radius: 0 !important; /* Strict pixel rule: NO border-radius anywhere */
 }
 
 body {
   margin: 0;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  overflow-x: hidden;
-  font-family: 'Fira Mono', 'Sensation', sans-serif;
+  overflow: hidden;
+  font-family: 'VT323', monospace;
+  background-color: var(--bg-deep);
+  color: var(--parchment);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+}
+
+a:hover {
+  color: var(--accent-pink);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  border-radius: 0 !important;
+  border: 2px solid var(--accent-gold);
+  background-color: var(--wall-mid);
+  color: var(--parchment);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 8px 14px;
   cursor: pointer;
-  transition: border-color 0.25s;
+  box-shadow: 2px 2px 0 #000;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
 }
-button:hover {
-  border-color: #646cff;
+
+button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Press Start 2P', monospace;
+  margin: 0;
 }
-/* In your global CSS or inside a <style> tag */
-/* @keyframes sweep {
-  0% {
-    transform: translateX(-150%) skewX(-20deg) rotate(5deg);
-  }
-  100% {
-    transform: translateX(150%) skewX(-20deg) rotate(5deg);
-  }
-} */
 
+p, span, li, div {
+  font-family: 'VT323', monospace;
+}
 
+/* Custom Pixel Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--wall-mid);
+  border: 1px solid var(--accent-gold);
+}
