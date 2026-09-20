@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PORTFOLIO_CONTENT, ProjectItem } from '../game/data/content';
 import { FaExternalLinkAlt, FaGithub, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 
@@ -11,6 +11,13 @@ export default function DialogueModal({ sectionId, onClose }: DialogueModalProps
   const content = PORTFOLIO_CONTENT[sectionId];
   const [projectIndex, setProjectIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Trigger the slide-up animation on mount
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setIsOpen(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   if (!content) return null;
 
@@ -44,15 +51,19 @@ export default function DialogueModal({ sectionId, onClose }: DialogueModalProps
     setActiveImageIndex((prev) => (prev - 1 + projectImages.length) % projectImages.length);
   };
 
-  const modalBorderColor = isProjectsSection ? 'var(--accent-teal)' : 'var(--accent-pink)';
+  // Derive panel classes: always 'dialogue-panel', add 'open' when mounted, 'project-mode' for projects
+  const panelClasses = [
+    'dialogue-panel',
+    isOpen ? 'open' : '',
+    isProjectsSection ? 'project-mode' : '',
+  ].filter(Boolean).join(' ');
 
   return (
+    // Transparent full-screen click-catcher — no flex centering
     <div style={backdropStyle} onClick={onClose}>
       <div
-        style={{
-          ...modalStyle,
-          border: `3px solid ${modalBorderColor}`,
-        }}
+        className={panelClasses}
+        style={dialoguePanelStyle}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -68,7 +79,7 @@ export default function DialogueModal({ sectionId, onClose }: DialogueModalProps
             </div>
             <p style={subtitleStyle}>{content.subtitle}</p>
           </div>
-          <button style={{ ...closeBtnStyle, border: `2px solid ${modalBorderColor}` }} onClick={onClose} aria-label="Close modal">
+          <button style={{ ...closeBtnStyle, border: `2px solid ${isProjectsSection ? '#4ecdc4' : '#ff6b9d'}` }} onClick={onClose} aria-label="Close modal">
             <FaTimes style={{ marginRight: '4px' }} /> CLOSE
           </button>
         </div>
@@ -213,31 +224,32 @@ export default function DialogueModal({ sectionId, onClose }: DialogueModalProps
   );
 }
 
+/* Transparent full-screen click-catcher — no centering, no flex */
 const backdropStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,
   width: '100vw',
   height: '100vh',
-  backgroundColor: 'rgba(8, 17, 25, 0.8)',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 1000,
-  padding: '1rem',
-  boxSizing: 'border-box',
+  backgroundColor: 'rgba(8, 17, 25, 0.55)',
+  zIndex: 999,
 };
 
-const modalStyle: React.CSSProperties = {
-  background: 'linear-gradient(180deg, var(--wall-mid), var(--bg-deep))',
-  boxShadow: '5px 5px 0 #000',
-  maxWidth: '680px',
-  width: '100%',
-  maxHeight: '90vh',
+/*
+ * Bottom-anchored RPG dialogue panel.
+ * Closed state: transform: translate(-50%, 140%) — pushed fully below viewport.
+ * Open state (.open class): transform: translate(-50%, 0%) — slides up into view.
+ * Project-mode (.project-mode class): narrower width + teal border.
+ *
+ * CSS classes are injected via a <style> tag rendered once by this component.
+ */
+const dialoguePanelStyle: React.CSSProperties = {
+  /* Base layout — scrollable body */
   display: 'flex',
   flexDirection: 'column',
   overflow: 'hidden',
   color: 'var(--parchment)',
+  maxHeight: '82vh',
 };
 
 const headerStyle: React.CSSProperties = {

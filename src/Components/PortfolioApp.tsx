@@ -329,16 +329,16 @@ const keyBadgeStyle: React.CSSProperties = {
 
 const toastStyle: React.CSSProperties = {
   position: 'fixed',
-  top: '5rem',
+  top: '14px',
   left: '50%',
-  transform: 'translateX(-50%)',
+  transform: 'translate(-50%, 0%)', /* in-view — slideDown animation brings it from -160% */
   background: 'linear-gradient(180deg, var(--wall-mid), var(--bg-deep))',
   border: '2px solid var(--accent-gold)',
   boxShadow: '4px 4px 0 #000',
   padding: '10px 20px',
   textAlign: 'center',
   zIndex: 950,
-  animation: 'slideDown 0.3s ease-out',
+  animation: 'slideDown 0.3s cubic-bezier(.2,.9,.3,1.3) both',
 };
 
 const toastTitleStyle: React.CSSProperties = {
